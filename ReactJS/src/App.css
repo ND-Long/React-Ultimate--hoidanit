@@ -7,3 +7,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.navbar {
+  z-index: 10;
+  opacity: 0.6;
+}
