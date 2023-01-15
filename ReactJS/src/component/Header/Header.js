@@ -2,30 +2,28 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { NavLink, Link } from 'react-router-dom';
+import './Header.css';
 
 const Header = () => {
     return (
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="#home">Quiz By Long</Navbar.Brand>
+                <NavLink to="/" className="navbar-brand">
+                    Quiz Test
+                </NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto" >
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#user">User</Nav.Link>
-                        <Nav.Link href="#admin">Admin</Nav.Link>
+                        <NavLink to="/" className="nav-link">Home</NavLink>
+                        <NavLink to="/admin" className="nav-link">Admin</NavLink>
+                        <NavLink to="/user" className="nav-link">User</NavLink>
                     </Nav>
                     <Nav>
                         <NavDropdown title="Settings" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#LogIn">
-                                Login
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#LogOut">
-                                Log Out
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#Profile">
-                                Profile
-                            </NavDropdown.Item>
+                            <NavDropdown.Item>Login</NavDropdown.Item>
+                            <NavDropdown.Item>Log Out</NavDropdown.Item>
+                            <NavDropdown.Item>Profile</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
@@ -33,5 +31,6 @@ const Header = () => {
         </Navbar >
     );
 }
+
 
 export default Header;
