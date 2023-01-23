@@ -1,6 +1,7 @@
 const User = (props) => {
     return (
         <div>
+
             User Page
         </div>
     )
