@@ -86,17 +86,26 @@ function ModalCreateuser(props) {
 
 
         //call apis
-
         if (isValidateEmail == true && isValidatePassword == true && isValidateUsername == true && isValidateImage == true) {
 
-            let dataUpLoadCheck = await postCreateUser(email, password, username, role, image)
-            console.log("Api", dataUpLoadCheck)
-            toast.success("Added User")
-            handleClose();
+            try {
+                var res = await postCreateUser(email, password, username, role, image)
+                if (res.data && res.data.EC == 1) {
+                    console.log("Api", res.data)
+                    toast.error(res.data.EM)
+                }
+                if (res.data && res.data.EC == 0) {
+                    console.log("Api", res.data)
+                    toast.success(res.data.EM)
+                    handleClose();
+                }
+            } catch (error) {
+                console.log("API error")
+                toast.error("Server Error")
+            }
+
+
         }
-
-
-
     }
 
 
