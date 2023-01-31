@@ -8,6 +8,7 @@
     "@testing-library/user-event": "13.5.0",
     "axios": "^0.27.2",
     "bootstrap": "5.2.0",
+    "lodash": "^4.17.21",
     "node-sass": "^8.0.0",
     "react": "18.2.0",
     "react-bootstrap": "2.4.0",
@@ -22,6 +23,7 @@
     "redux": "4.2.0",
     "redux-devtools-extension": "2.13.9",
     "redux-thunk": "2.4.1",
+    "routes": "^2.1.0",
     "sass": "^1.57.1",
     "web-vitals": "2.1.4"
   },

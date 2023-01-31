@@ -1,24 +1,32 @@
 import ModalCreateuser from "./ModalCreateuser"
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from "react"
 import { getAllUser } from "../../services/apiService"
-import axios from "axios";
 import TableUser from "./TableUser";
+import ModalUpdateUser from "./ModalUpdateUser";
 
 const ManageUser = () => {
     const [showModal, setShowModal] = useState(false)
-    const [listUsers, setListUsers] = useState(getAllUser())
+    const [showModalUpdate, setShowModalUpdate] = useState(false)
+    const [inforUserUpdate, setInforUserUpdate] = useState([])
+    const [listUsers, setListUsers] = useState([])
     const handleShow = () => {
         setShowModal(true)
+    }
+    const handleShowUpdate = (item) => {
+        setShowModalUpdate(true)
+        setInforUserUpdate(item)
     }
     const handleClose = () => {
         setShowModal(false)
     }
+    const handleCloseUpdate = () => {
+        setShowModalUpdate(false)
+    }
 
 
     //componentDidmount
-    useEffect(async () => {
+    useEffect(() => {
         fetchListUsers()
     }, [])
 
@@ -44,8 +52,13 @@ const ManageUser = () => {
                 onClickClose={handleClose}
                 fetchListUsers={fetchListUsers}
             />
+            <ModalUpdateUser
+                show={showModalUpdate}
+                onClickClose={handleCloseUpdate}
+                inforUserUpdate={inforUserUpdate}
+            />
             <div>
-                <TableUser listUsers={listUsers} />
+                <TableUser listUsers={listUsers} onClickShowUpdate={handleShowUpdate} />
             </div>
         </div>
     )

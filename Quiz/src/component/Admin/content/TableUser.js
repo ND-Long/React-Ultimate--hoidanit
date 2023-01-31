@@ -1,11 +1,14 @@
 import React from "react"
-import { async } from "q"
+
 
 
 
 const TableUser = (props) => {
-    const { listUsers } = props
+    const { listUsers, onClickShowUpdate } = props
+    const handleClickShowUpdate = (item) => {
+        onClickShowUpdate(item)
 
+    }
     return (
         <>
             <table className="table table-bordered table-hover">
@@ -28,8 +31,8 @@ const TableUser = (props) => {
                                     <td>{item.email}</td>
                                     <td>{item.role}</td>
                                     <td>
-                                        <button className="btn btn-info mx-1">View</button>
-                                        <button className="btn btn-warning mx-1">Update</button>
+                                        <button className="btn btn-info mx-1" >View</button>
+                                        <button className="btn btn-warning mx-1" onClick={() => handleClickShowUpdate(item)}>Update</button>
                                         <button className="btn btn-danger mx-1">Delete</button>
                                     </td>
                                 </tr>
