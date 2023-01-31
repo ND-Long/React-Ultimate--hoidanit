@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 import axios from "axios";
-
+import TableUser from "./TableUser";
 
 const ManageUser = () => {
     const [showModal, setShowModal] = useState(false)
@@ -23,7 +23,7 @@ const ManageUser = () => {
             </Button>
             <ModalCreateuser show={showModal} onClickClose={handleClose} />
             <div>
-                table user
+                <TableUser />
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import axios from '../../utils/apiService';
+import axios from '../../utils/axiosCustomize';
 
 const postCreateUser = (email, password, username, role, image) => {
     const datSubmit = new FormData();
@@ -7,9 +7,11 @@ const postCreateUser = (email, password, username, role, image) => {
     datSubmit.append("username", username)
     datSubmit.append("role", role)
     datSubmit.append("userImage", image)
-
     return axios.post("/api/v1/participant", datSubmit)
-
 }
 
-export { postCreateUser } 
+const getAllUser = () => {
+    return axios.get("/api/v1/participant/all")
+}
+
+export { postCreateUser, getAllUser } 

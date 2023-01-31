@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -87,24 +87,16 @@ function ModalCreateuser(props) {
 
         //call apis
         if (isValidateEmail == true && isValidatePassword == true && isValidateUsername == true && isValidateImage == true) {
-
-            try {
-                var res = await postCreateUser(email, password, username, role, image)
-                if (res.data && res.data.EC == 1) {
-                    console.log("Api", res.data)
-                    toast.error(res.data.EM)
-                }
-                if (res.data && res.data.EC == 0) {
-                    console.log("Api", res.data)
-                    toast.success(res.data.EM)
-                    handleClose();
-                }
-            } catch (error) {
-                console.log("API error")
-                toast.error("Server Error")
+            var data = await postCreateUser(email, password, username, role, image)
+            console.log(">>>Check data create:", data)
+            if (data && data.EC == 1) {
+                toast.error(data.EM)
+            } else if (data && data.EC == 0) {
+                toast.success(data.EM)
+                handleClose();
+            } else {
+                toast.error(data.EM)
             }
-
-
         }
     }
 

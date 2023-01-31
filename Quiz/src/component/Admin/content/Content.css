@@ -34,8 +34,8 @@ label {
 
 .managerPage {
     padding: 10px;
-    width: 100%;
-    /* border: 1px green solid; */
 }
 
-.form-control {}
+.table {
+    margin-top: 15px;
+}
