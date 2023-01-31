@@ -5,9 +5,10 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./Content.css"
 import { postCreateUser } from '../../services/apiService';
+import { async } from "q"
 
 function ModalCreateuser(props) {
-    const { show, onClickClose } = props
+    const { show, onClickClose, fetchListUsers } = props
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
@@ -15,7 +16,7 @@ function ModalCreateuser(props) {
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
 
-
+    //clode modal
     const handleClose = () => {
         onClickClose()
         setEmail('');
@@ -26,7 +27,7 @@ function ModalCreateuser(props) {
         setImage('')
     }
 
-
+    //up preview image
     const handleUpImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
             setPreviewImage(URL.createObjectURL(event.target.files[0]))
@@ -37,7 +38,7 @@ function ModalCreateuser(props) {
         }
     }
 
-
+    //submit user
     const handleSubmitUser = async () => {
         //validate
         var isValidateEmail = email.toLowerCase().match(
@@ -94,6 +95,8 @@ function ModalCreateuser(props) {
             } else if (data && data.EC == 0) {
                 toast.success(data.EM)
                 handleClose();
+                fetchListUsers();
+
             } else {
                 toast.error(data.EM)
             }
