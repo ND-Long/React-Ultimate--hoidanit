@@ -12,7 +12,6 @@ const TableUser = (props) => {
         onClickViewUser(user)
     }
     const handleClickDeleteUser = (user) => {
-        console.log(">>>Delete User: ", user)
         onClickDeleteUser(user)
     }
     return (

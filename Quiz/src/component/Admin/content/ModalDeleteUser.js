@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./Content.css"
 import _ from "lodash"
+import { deleteUser } from '../../services/apiService';
+
 
 function ModalDeleteUser(props) {
     const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate } = props
@@ -14,7 +16,6 @@ function ModalDeleteUser(props) {
     const [role, setRole] = useState('')
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
-
 
 
     //clode modal
@@ -30,6 +31,20 @@ function ModalDeleteUser(props) {
         resetDataUpdate()
     }
 
+    const handleDeleteUser = async () => {
+        var dataDeleteUser = await deleteUser(inforUserUpdate.id)
+        console.log(">>>Check data delete:", inforUserUpdate.id)
+        if (dataDeleteUser && dataDeleteUser.EC == 1) {
+            toast.error(dataDeleteUser.EM)
+        } else if (dataDeleteUser && dataDeleteUser.EC == 0) {
+            toast.success(dataDeleteUser.EM)
+            handleClose();
+            fetchListUsers();
+        } else {
+            toast.error(dataDeleteUser.EM)
+        }
+    }
+
     useEffect(() => {
         if (!_.isEmpty(inforUserUpdate)) {
             setEmail(inforUserUpdate.email);
@@ -40,8 +55,6 @@ function ModalDeleteUser(props) {
             // console.log(`data:image/png;base64, ${inforUserUpdate.image}`)
         }
     }, [inforUserUpdate])
-
-
 
 
     return (
@@ -55,7 +68,7 @@ function ModalDeleteUser(props) {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete The User</Modal.Title>
+                    <Modal.Title>Confirm Delete The User?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure delete this user. email = <b>{inforUserUpdate.email}</b>
@@ -64,7 +77,7 @@ function ModalDeleteUser(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary">Confirm</Button>
+                    <Button variant="primary" onClick={() => handleDeleteUser()}>Confirm</Button>
                 </Modal.Footer>
             </Modal>
         </>

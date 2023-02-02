@@ -7,7 +7,7 @@ const postCreateUser = (email, password, username, role, image) => {
     dataSubmit.append("username", username)
     dataSubmit.append("role", role)
     dataSubmit.append("userImage", image)
-    return axios.post("/api/v1/participant", dataSubmit)
+    return axios.post("/api/v1/participant", dataSubmit);
 }
 
 const getAllUser = () => {
@@ -20,7 +20,13 @@ const putUpdateUser = (id, username, role, image) => {
     dataUpdate.append("username", username)
     dataUpdate.append("role", role)
     dataUpdate.append("userImage", image)
-    return axios.put("/api/v1/participant", dataUpdate)
+    return axios.put("/api/v1/participant", dataUpdate);
 }
 
-export { postCreateUser, getAllUser, putUpdateUser } 
+const deleteUser = (id) => {
+    const dataDelete = new FormData();
+    dataDelete.append("id", id)
+    return axios.delete("/api/v1/participant", { data: dataDelete });
+}
+
+export { postCreateUser, getAllUser, putUpdateUser, deleteUser } 
