@@ -55,7 +55,7 @@ function ModalViewUser(props) {
                 size="xl"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Info User: ID({inforUserUpdate.id})</Modal.Title>
+                    <Modal.Title>Info User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>

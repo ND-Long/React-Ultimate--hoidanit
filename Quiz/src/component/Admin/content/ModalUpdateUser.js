@@ -114,7 +114,7 @@ function ModalCreateuser(props) {
                 size="xl"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update User: ID({inforUserUpdate.id})</Modal.Title>
+                    <Modal.Title>Update User </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
