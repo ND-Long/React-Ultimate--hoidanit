@@ -4,11 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./Content.css"
-import { putUpdateUser } from '../../services/apiService';
-import { async } from "q"
 import _ from "lodash"
 
-function ModalCreateuser(props) {
+function ModalViewUser(props) {
     const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate } = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -17,6 +15,20 @@ function ModalCreateuser(props) {
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
 
+
+
+    //clode modal
+    const handleClose = () => {
+        console.log(">>>>Click close View User")
+        onClickClose();
+        setEmail("");
+        setPassword("");
+        setUsername("");
+        setRole('USER');
+        setPreviewImage('')
+        setImage('')
+        resetDataUpdate()
+    }
 
     useEffect(() => {
         if (!_.isEmpty(inforUserUpdate)) {
@@ -29,78 +41,7 @@ function ModalCreateuser(props) {
         }
     }, [inforUserUpdate])
 
-    //clode modal
-    const handleClose = () => {
-        onClickClose();
-        setEmail("");
-        setPassword("");
-        setUsername("");
-        setRole('USER');
-        setPreviewImage('')
-        setImage('')
-        resetDataUpdate()
-    }
 
-    //up preview image
-    const handleUpImage = (event) => {
-        if (event.target && event.target.files && event.target.files[0]) {
-            setPreviewImage(URL.createObjectURL(event.target.files[0]))
-            setImage(event.target.files[0])
-        } else {
-            setPreviewImage("")
-            setImage('')
-        }
-    }
-
-    //update user
-    const handleSubmitUser = async () => {
-        //validate
-
-        var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
-        var imageCheckType = document.getElementById('upload-image').value
-
-        var typeImage = imageCheckType.substring(
-            imageCheckType.lastIndexOf('.') + 1).toLowerCase();
-        var isValidateImage
-
-
-        if (!isValidateUsername) {
-            toast.error("Invalid Username")
-            isValidateUsername = false
-        } else {
-            isValidateUsername = true
-        }
-
-        if (!previewImage) {
-            if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
-                || typeImage == "jpeg" || typeImage == "jpg" || typeImage == "jpeg") {
-                isValidateImage = true
-            } else {
-                console.log(image)
-                toast.error("Invalid Image")
-                isValidateImage = false
-            }
-        } else {
-            isValidateImage = true
-        }
-
-
-
-        //call apis
-        if (isValidateUsername == true && isValidateImage == true) {
-            var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
-            // console.log(">>>Check data update:", data)
-            if (data && data.EC == 1) {
-                toast.error(data.EM)
-            } else if (data && data.EC == 0) {
-                toast.success(data.EM)
-                handleClose();
-                fetchListUsers();
-            } else {
-                toast.error(data.EM)
-            }
-        }
-    }
 
 
     return (
@@ -114,7 +55,7 @@ function ModalCreateuser(props) {
                 size="xl"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update User: ID({inforUserUpdate.id})</Modal.Title>
+                    <Modal.Title>Info User: ID({inforUserUpdate.id})</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -139,6 +80,7 @@ function ModalCreateuser(props) {
                                 <label >Username</label>
                                 <input type="text" className="form-control" placeholder="Username"
                                     value={username}
+                                    disabled={true}
                                     onChange={event => setUsername(event.target.value)}
                                 />
                             </div>
@@ -146,6 +88,7 @@ function ModalCreateuser(props) {
                                 <label >Role</label>
                                 <select className="form-control"
                                     value={role}
+                                    disabled={true}
                                     onChange={event => setRole(event.target.value)}
                                 >
                                     <option >USER</option>
@@ -153,10 +96,7 @@ function ModalCreateuser(props) {
                                 </select>
                             </div>
                             <div className="form-group col-md-12">
-                                <label htmlFor="upload-image" className='btn-upload-image'>Upload File Image</label>
-                                <input type="file" className="form-control" id="upload-image" placeholder="Username" hidden
-                                    onChange={event => handleUpImage(event)}
-                                />
+                                <label >Image</label>
                             </div>
                             <div className='preview-image'>
                                 {previewImage ?
@@ -174,16 +114,13 @@ function ModalCreateuser(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary"
-                        onClick={() => handleSubmitUser()}
-                    >Save</Button>
                 </Modal.Footer>
             </Modal>
         </>
     );
 }
 
-export default ModalCreateuser
+export default ModalViewUser
 
 
 

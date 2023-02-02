@@ -4,10 +4,13 @@ import React from "react"
 
 
 const TableUser = (props) => {
-    const { listUsers, onClickShowUpdate } = props
-    const handleClickShowUpdate = (item) => {
-        onClickShowUpdate(item)
-
+    const { listUsers, onClickShowUpdate, onClickViewUser } = props
+    const handleClickShowUpdate = (user) => {
+        onClickShowUpdate(user)
+    }
+    const handleClickViewUser = (user) => {
+        console.log(">>>>>View User: ", user)
+        onClickViewUser(user)
     }
     return (
         <>
@@ -31,7 +34,7 @@ const TableUser = (props) => {
                                     <td>{item.email}</td>
                                     <td>{item.role}</td>
                                     <td>
-                                        <button className="btn btn-info mx-1" >View</button>
+                                        <button className="btn btn-info mx-1" onClick={() => handleClickViewUser(item)} >View</button>
                                         <button className="btn btn-warning mx-1" onClick={() => handleClickShowUpdate(item)}>Update</button>
                                         <button className="btn btn-danger mx-1">Delete</button>
                                     </td>
