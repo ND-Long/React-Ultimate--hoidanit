@@ -5,7 +5,7 @@ import { getAllUser } from "../../services/apiService"
 import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 
-const ManageUser = () => {
+const ManageUser = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [showModalUpdate, setShowModalUpdate] = useState(false)
     const [inforUserUpdate, setInforUserUpdate] = useState([])
@@ -13,9 +13,13 @@ const ManageUser = () => {
     const handleShow = () => {
         setShowModal(true)
     }
-    const handleShowUpdate = (item) => {
+    const handleShowUpdate = (user) => {
         setShowModalUpdate(true)
-        setInforUserUpdate(item)
+        setInforUserUpdate(user)
+    }
+
+    const resetDataUpdate = () => {
+        setInforUserUpdate({})
     }
     const handleClose = () => {
         setShowModal(false)
@@ -56,6 +60,8 @@ const ManageUser = () => {
                 show={showModalUpdate}
                 onClickClose={handleCloseUpdate}
                 inforUserUpdate={inforUserUpdate}
+                fetchListUsers={fetchListUsers}
+                resetDataUpdate={resetDataUpdate}
             />
             <div>
                 <TableUser listUsers={listUsers} onClickShowUpdate={handleShowUpdate} />

@@ -1,36 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import "./Content.css"
+import { putUpdateUser } from '../../services/apiService';
+import { async } from "q"
 import _ from "lodash"
 
-function ModalUpdateUser(props) {
-    const { show, onClickClose, inforUserUpdate } = props
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [username, setUsername] = useState('')
-    const [role, setRole] = useState('USER')
+function ModalCreateuser(props) {
+    const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate } = props
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [username, setUsername] = useState("")
+    const [role, setRole] = useState('')
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
+
 
     useEffect(() => {
         if (!_.isEmpty(inforUserUpdate)) {
             setEmail(inforUserUpdate.email);
             setPassword(inforUserUpdate.password);
             setUsername(inforUserUpdate.username);
-            setRole(inforUserUpdate.role);
-            if (inforUserUpdate.image) {
-                setImage(`data:image/png;base64,${inforUserUpdate.image}`)
-            }
-
+            setRole(inforUserUpdate.role)
+            setPreviewImage(`data:image/png;base64, ${inforUserUpdate.image}`)
+            console.log(`data:image/png;base64, ${inforUserUpdate.image}`)
         }
-
     }, [inforUserUpdate])
-
 
     //clode modal
     const handleClose = () => {
-        onClickClose()
+        onClickClose();
+        setEmail("");
+        setPassword("");
+        setUsername("");
+        setRole('USER');
+        setPreviewImage('')
+        setImage('')
+        resetDataUpdate()
     }
 
     //up preview image
@@ -38,77 +46,59 @@ function ModalUpdateUser(props) {
         if (event.target && event.target.files && event.target.files[0]) {
             setPreviewImage(URL.createObjectURL(event.target.files[0]))
             setImage(event.target.files[0])
-            console.log(">>>Image: ", image)
         } else {
             setPreviewImage("")
             setImage('')
         }
     }
 
-    //submit user
-    const handleUpdatestUser = async () => {
-        console.log("Submit Update")
+    //update user
+    const handleSubmitUser = async () => {
         //validate
-        // var isValidateEmail = email.toLowerCase().match(
-        //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        // );
-        // var isValidatePassword = password.match(
-        //     /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-        // );
 
-        // var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
-        // var imageCheckType = document.getElementById('upload-image').value
+        var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
+        var imageCheckType = document.getElementById('upload-image').value
 
-        // var typeImage = imageCheckType.substring(
-        //     imageCheckType.lastIndexOf('.') + 1).toLowerCase();
-        // var isValidateImage
+        var typeImage = imageCheckType.substring(
+            imageCheckType.lastIndexOf('.') + 1).toLowerCase();
+        var isValidateImage
 
-        // if (!isValidateEmail) {
-        //     toast.error("Invalid Email")
-        //     isValidateEmail = false
-        // } else {
-        //     isValidateEmail = true
-        // }
 
-        // if (!isValidatePassword) {
-        //     toast.error("Invalid Password")
-        //     isValidatePassword = false
-        // } else {
-        //     isValidatePassword = true
-        // }
+        if (!isValidateUsername) {
+            toast.error("Invalid Username")
+            isValidateUsername = false
+        } else {
+            isValidateUsername = true
+        }
 
-        // if (!isValidateUsername) {
-        //     toast.error("Invalid Username")
-        //     isValidateUsername = false
-        // } else {
-        //     isValidateUsername = true
-        // }
-
-        // if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
-        //     || typeImage == "jpeg" || typeImage == "jpg" || typeImage == "jpeg") {
-        //     isValidateImage = true
-        // } else {
-        //     toast.error("Invalid Image")
-        //     isValidateImage = false
-        // }
+        if (!image) {
+            if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
+                || typeImage == "jpeg" || typeImage == "jpg" || typeImage == "jpeg") {
+                isValidateImage = true
+            } else {
+                toast.error("Invalid Image")
+                isValidateImage = false
+            }
+        } else {
+            isValidateImage = true
+        }
 
 
 
-        // //call apis
-        // if (isValidateEmail == true && isValidatePassword == true && isValidateUsername == true && isValidateImage == true) {
-        //     var data = await postCreateUser(email, password, username, role, image)
-        //     console.log(">>>Check data create:", data)
-        //     if (data && data.EC == 1) {
-        //         toast.error(data.EM)
-        //     } else if (data && data.EC == 0) {
-        //         toast.success(data.EM)
-        //         handleClose();
-        //         fetchListUsers();
-
-        //     } else {
-        //         toast.error(data.EM)
-        //     }
-        // }
+        //call apis
+        if (isValidateUsername == true && isValidateImage == true) {
+            var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
+            console.log(">>>Check data update:", data)
+            if (data && data.EC == 1) {
+                toast.error(data.EM)
+            } else if (data && data.EC == 0) {
+                toast.success(data.EM)
+                handleClose();
+                fetchListUsers();
+            } else {
+                toast.error(data.EM)
+            }
+        }
     }
 
 
@@ -123,29 +113,27 @@ function ModalUpdateUser(props) {
                 size="xl"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update User: ID({inforUserUpdate.id})</Modal.Title>
+                    <Modal.Title>Add new user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
                         <div className="row" id='form'>
-
                             <div className="col-md-6">
                                 <label >Email</label>
                                 <input type="email" className="form-control" placeholder="Email"
                                     value={email}
-                                    disabled
+                                    disabled={true}
                                     onChange={event => setEmail(event.target.value)}
                                 />
                             </div>
                             <div className="col-md-6">
                                 <label >Password</label>
-                                <input type="password" className="form-control" placeholder="******"
+                                <input type="password" className="form-control" placeholder="Password"
                                     value={password}
-                                    disabled
+                                    disabled={true}
                                     onChange={event => setPassword(event.target.value)}
                                 />
                             </div>
-
                             <div className="form-group col-md-6">
                                 <label >Username</label>
                                 <input type="text" className="form-control" placeholder="Username"
@@ -170,8 +158,8 @@ function ModalUpdateUser(props) {
                                 />
                             </div>
                             <div className='preview-image'>
-                                {inforUserUpdate ?
-                                    < img className='image-preview' src={image} />
+                                {previewImage ?
+                                    < img className='image-preview' src={previewImage} />
                                     :
                                     <span >Preview Image</span>
                                 }
@@ -186,7 +174,7 @@ function ModalUpdateUser(props) {
                         Close
                     </Button>
                     <Button variant="primary"
-                        onClick={() => handleUpdatestUser()}
+                        onClick={() => handleSubmitUser()}
                     >Save</Button>
                 </Modal.Footer>
             </Modal>
@@ -194,7 +182,7 @@ function ModalUpdateUser(props) {
     );
 }
 
-export default ModalUpdateUser
+export default ModalCreateuser
 
 
 
