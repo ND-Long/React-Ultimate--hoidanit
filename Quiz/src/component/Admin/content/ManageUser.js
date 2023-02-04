@@ -54,7 +54,7 @@ const ManageUser = (props) => {
         setPageNumber(event)
     }
     const handleSetLimitPerPage = (event) => {
-
+        setPageNumber(1)
         setLimitPerPage(event)
     }
 
@@ -62,6 +62,7 @@ const ManageUser = (props) => {
     //componentDidmount
     useEffect(() => {
         fetchListUsers()
+
     }, [limitPerPage, pageNumber])
 
     //all api data list user
@@ -74,10 +75,15 @@ const ManageUser = (props) => {
     // }
     const fetchListUsers = async () => {
         let dataGetUser = await paginationUser(pageNumber, limitPerPage)
+
         setTotalPages(dataGetUser.DT.totalPages)
         if (dataGetUser.EC == 0) {
             setListUsers(dataGetUser.DT.users)
         }
+    }
+
+    const handleBackToPageOne = () => {
+        setPageNumber(1)
     }
 
 
@@ -92,6 +98,7 @@ const ManageUser = (props) => {
                 show={showModal}
                 onClickClose={handleClose}
                 fetchListUsers={fetchListUsers}
+                backToPage1={handleBackToPageOne}
             />
             <ModalUpdateUser
                 show={showModalUpdate}
@@ -99,6 +106,7 @@ const ManageUser = (props) => {
                 inforUserUpdate={inforUserUpdate}
                 fetchListUsers={fetchListUsers}
                 resetDataUpdate={resetDataUpdate}
+                backToPage1={handleBackToPageOne}
             />
             <ModalViewUser
                 show={showModalViewUser}
@@ -113,6 +121,7 @@ const ManageUser = (props) => {
                 inforUserUpdate={inforUserUpdate}
                 fetchListUsers={fetchListUsers}
                 resetDataUpdate={resetDataUpdate}
+                backToPage1={handleBackToPageOne}
             />
             <div>
                 <TableUser
@@ -123,6 +132,7 @@ const ManageUser = (props) => {
                     totalPage={totalPages}
                     onClickSetPageNumber={handleSetPageNumber}
                     onClickSetLimitPerPage={handleSetLimitPerPage}
+                    currentPage={pageNumber}
                 />
             </div>
         </div>

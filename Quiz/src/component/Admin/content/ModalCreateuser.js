@@ -8,7 +8,7 @@ import { postCreateUser } from '../../services/apiService';
 import { async } from "q"
 
 function ModalCreateuser(props) {
-    const { show, onClickClose, fetchListUsers } = props
+    const { show, onClickClose, fetchListUsers, backToPage1 } = props
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
@@ -96,7 +96,7 @@ function ModalCreateuser(props) {
                 toast.success(data.EM)
                 handleClose();
                 fetchListUsers();
-
+                backToPage1()
             } else {
                 toast.error(data.EM)
             }

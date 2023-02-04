@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 
 const TableUser = (props) => {
-    var { listUsers, onClickShowUpdate, onClickViewUser, onClickDeleteUser, totalPage, onClickSetPageNumber, onClickSetLimitPerPage } = props
+    var { listUsers, onClickShowUpdate, onClickViewUser, onClickDeleteUser, totalPage, onClickSetPageNumber, onClickSetLimitPerPage, currentPage } = props
     const [limitPerPage, setLimitPerPage] = useState("")
 
     const handleClickShowUpdate = (user) => {
@@ -31,7 +31,6 @@ const TableUser = (props) => {
     }
 
     const handlePageClick = (event) => {
-        console.log(`User requested page number ${event.selected}`)
         onClickSetPageNumber(event.selected + 1)
     };
 
@@ -113,6 +112,7 @@ const TableUser = (props) => {
                 containerClassName="pagination"
                 activeClassName="active"
                 renderOnZeroPageCount={null}
+                forcePage={currentPage - 1}
             />
         </>
     )

@@ -9,7 +9,7 @@ import { deleteUser } from '../../services/apiService';
 
 
 function ModalDeleteUser(props) {
-    const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate } = props
+    const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate, backToPage1 } = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
@@ -40,6 +40,7 @@ function ModalDeleteUser(props) {
             toast.success(dataDeleteUser.EM)
             handleClose();
             fetchListUsers();
+            backToPage1()
         } else {
             toast.error(dataDeleteUser.EM)
         }

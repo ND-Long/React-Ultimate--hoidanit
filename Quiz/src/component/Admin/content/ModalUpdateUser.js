@@ -9,7 +9,7 @@ import { async } from "q"
 import _ from "lodash"
 
 function ModalCreateuser(props) {
-    const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate } = props
+    const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate, backToPage1 } = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
