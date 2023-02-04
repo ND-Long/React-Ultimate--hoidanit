@@ -1,0 +1,30 @@
+.header {
+    text-align: right;
+    padding: 10px;
+    padding-bottom: 20px;
+
+}
+
+.title {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.wellcome {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+
+label {
+    padding-top: 20px;
+}
+
+.btn {
+    margin-top: 20px;
+    color: white;
+}
+
+.forgotPass {
+    padding-top: 5px;
+}

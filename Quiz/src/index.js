@@ -11,6 +11,8 @@ import DashBoard from './component/Admin/content/DashBoard';
 import ManageUser from './component/Admin/content/ManageUser';
 import ManageQuiz from './component/Admin/content/ManageQuiz';
 import ManageQuestion from './component/Admin/content/ManageQuestion';
+import Login from './component/Auth/Login';
+import Signup from './component/Auth/Signup';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,11 +24,20 @@ root.render(
         <Route index element={<Home />} />
         <Route path="/user" element={<User />} />
       </Route>
+
       <Route path="/admin" element={<Admin />}>
         <Route index element={<DashBoard />} />
         <Route path="/admin/manage-user" element={<ManageUser />} />
         <Route path="/admin/manage-quiz" element={<ManageQuiz />} />
         <Route path="/admin/manage-question" element={<ManageQuestion />} />
+      </Route>
+
+      <Route path="/login" element={<Login />}>
+
+      </Route>
+
+      <Route path="/signup" element={<Signup />} >
+
       </Route>
     </Routes>
   </BrowserRouter>
