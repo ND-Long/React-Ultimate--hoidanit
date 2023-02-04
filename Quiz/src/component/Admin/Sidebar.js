@@ -1,7 +1,7 @@
 import 'react-pro-sidebar/dist/css/styles.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FaTachometerAlt, FaGem, FaGithub, FaFacebook, FaRegLaughWink, FaHeart } from 'react-icons/fa';
-import sidebarBg from "../../assets/bgSideBarAdmin.jpeg"
+import sidebarBg from "../../assets/bgSidebarAdmin.jpg"
 import {
     ProSidebar,
     Menu,

@@ -1,10 +1,16 @@
 import React from "react"
+import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
+import { toast } from 'react-toastify';
+
 
 
 
 
 const TableUser = (props) => {
-    const { listUsers, onClickShowUpdate, onClickViewUser, onClickDeleteUser } = props
+    var { listUsers, onClickShowUpdate, onClickViewUser, onClickDeleteUser, totalPage, onClickSetPageNumber, onClickSetLimitPerPage } = props
+    const [limitPerPage, setLimitPerPage] = useState("")
+
     const handleClickShowUpdate = (user) => {
         onClickShowUpdate(user)
     }
@@ -14,6 +20,26 @@ const TableUser = (props) => {
     const handleClickDeleteUser = (user) => {
         onClickDeleteUser(user)
     }
+
+    const handleSetLimitPerPage = () => {
+        if (limitPerPage > 0) {
+            onClickSetLimitPerPage(limitPerPage)
+            setLimitPerPage("")
+        } else {
+            toast.error("Please enter a number greater than 0")
+        }
+    }
+
+    const handlePageClick = (event) => {
+        console.log(`User requested page number ${event.selected}`)
+        onClickSetPageNumber(event.selected + 1)
+    };
+
+    useEffect(() => {
+
+    }, [totalPage]);
+
+
     return (
         <>
             <table className="table table-bordered table-hover">
@@ -30,7 +56,7 @@ const TableUser = (props) => {
                     {listUsers && listUsers.length > 0 &&
                         listUsers.map((item, index) => {
                             return (
-                                <tr key={`table-user-${item.id}`}>
+                                <tr key={`table - user - ${item.id}`}>
                                     <th >{item.id}</th>
                                     <td>{item.username}</td>
                                     <td>{item.email}</td>
@@ -52,6 +78,42 @@ const TableUser = (props) => {
                     }
                 </tbody>
             </table>
+            <div class="form-group col-md-2">
+                <input
+                    class="form-control"
+                    id="inputPassword2"
+                    placeholder="Limit of page"
+                    type="number"
+                    width="50px"
+                    value={limitPerPage}
+                    onChange={e => setLimitPerPage(e.target.value)}
+                />
+                <button type="submit" class="btn btn-success mb-2"
+                    onClick={handleSetLimitPerPage}
+                >Enter</button>
+            </div>
+
+
+            <ReactPaginate
+                nextLabel="Next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={2}
+                pageCount={totalPage}
+                previousLabel="< Prev"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+                renderOnZeroPageCount={null}
+            />
         </>
     )
 }

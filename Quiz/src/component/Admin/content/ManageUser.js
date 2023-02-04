@@ -1,7 +1,7 @@
 import ModalCreateuser from "./ModalCreateuser"
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from "react"
-import { getAllUser } from "../../services/apiService"
+import { getAllUser, paginationUser } from "../../services/apiService"
 import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
@@ -13,9 +13,11 @@ const ManageUser = (props) => {
     const [showModalUpdate, setShowModalUpdate] = useState(false)
     const [showModalViewUser, setShowModalViewUser] = useState(false)
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false)
-
+    const [totalPages, setTotalPages] = useState(null)
     const [inforUserUpdate, setInforUserUpdate] = useState([])
     const [listUsers, setListUsers] = useState([])
+    const [pageNumber, setPageNumber] = useState(1)
+    const [limitPerPage, setLimitPerPage] = useState(5)
     const handleShow = () => {
         setShowModal(true)
     }
@@ -47,19 +49,34 @@ const ManageUser = (props) => {
     const handleCloseDeleteUser = () => {
         setShowModalDeleteUser(false)
     }
+    const handleSetPageNumber = (event) => {
+        console.log(">>>>Page Number:", event)
+        setPageNumber(event)
+    }
+    const handleSetLimitPerPage = (event) => {
+
+        setLimitPerPage(event)
+    }
 
 
     //componentDidmount
     useEffect(() => {
         fetchListUsers()
-    }, [])
+    }, [limitPerPage, pageNumber])
 
     //all api data list user
+    // const fetchListUsers = async () => {
+    //     let dataGetUser = await getAllUser()
+    //     console.log(">>>Data all: ", dataGetUser.DT)
+    //     if (dataGetUser.EC == 0) {
+    //         setListUsers(dataGetUser.DT)
+    //     }
+    // }
     const fetchListUsers = async () => {
-        let dataGetUser = await getAllUser()
-        // console.log(">>>Data all: ", dataGetUser.DT)
+        let dataGetUser = await paginationUser(pageNumber, limitPerPage)
+        setTotalPages(dataGetUser.DT.totalPages)
         if (dataGetUser.EC == 0) {
-            setListUsers(dataGetUser.DT)
+            setListUsers(dataGetUser.DT.users)
         }
     }
 
@@ -103,6 +120,9 @@ const ManageUser = (props) => {
                     onClickShowUpdate={handleShowUpdate}
                     onClickViewUser={handleViewUser}
                     onClickDeleteUser={handleDeleteUser}
+                    totalPage={totalPages}
+                    onClickSetPageNumber={handleSetPageNumber}
+                    onClickSetLimitPerPage={handleSetLimitPerPage}
                 />
             </div>
         </div>

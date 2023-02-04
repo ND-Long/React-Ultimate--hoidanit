@@ -39,3 +39,10 @@ label {
 .table {
     margin-top: 15px;
 }
+
+
+
+ul.pagination {
+    display: flex;
+    justify-content: center;
+}
