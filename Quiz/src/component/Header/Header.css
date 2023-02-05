@@ -11,8 +11,8 @@
 }
 
 .navbar-expand-lg .navbar-nav .nav-link.active {
-    background-color: rgb(255, 234, 234);
-    ;
+    /* background-color: rgb(255, 234, 234); */
+
     border-radius: 15px;
     color: red;
 }

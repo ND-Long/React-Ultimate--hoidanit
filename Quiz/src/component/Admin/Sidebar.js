@@ -81,7 +81,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                         }}
                     >
                         <a
-                            href="https://google.com/"
+                            href="https://github.com/ND-Long/React-Ultimate--hoidanit/tree/prod/Quiz"
                             target="_blank"
                             className="sidebar-btn"
                             rel="noopener noreferrer"
