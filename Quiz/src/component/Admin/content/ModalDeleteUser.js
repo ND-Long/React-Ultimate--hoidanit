@@ -20,7 +20,6 @@ function ModalDeleteUser(props) {
 
     //clode modal
     const handleClose = () => {
-        console.log(">>>>Click close View User")
         onClickClose();
         setEmail("");
         setPassword("");
@@ -44,6 +43,13 @@ function ModalDeleteUser(props) {
         } else {
             toast.error(dataDeleteUser.EM)
         }
+        // var dataDeleteUser = await deleteUser(inforUserUpdate.id)
+        // console.log(">>>Check data delete:", inforUserUpdate.id)
+        // toast.success("Delete success")
+        // handleClose();
+        // fetchListUsers();
+        // backToPage1()
+
     }
 
     useEffect(() => {
@@ -53,7 +59,6 @@ function ModalDeleteUser(props) {
             setUsername(inforUserUpdate.username);
             setRole(inforUserUpdate.role)
             setPreviewImage(`data:image/png;base64, ${inforUserUpdate.image}`)
-            // console.log(`data:image/png;base64, ${inforUserUpdate.image}`)
         }
     }, [inforUserUpdate])
 

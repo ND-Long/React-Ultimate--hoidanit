@@ -64,12 +64,12 @@ function ModalCreateuser(props) {
         var isValidateImage
 
 
-        if (!isValidateUsername) {
-            toast.error("Invalid Username")
-            isValidateUsername = false
-        } else {
-            isValidateUsername = true
-        }
+        // if (!isValidateUsername) {
+        //     toast.error("Invalid Username")
+        //     isValidateUsername = false
+        // } else {
+        //     isValidateUsername = true
+        // }
 
         if (!previewImage) {
             if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
@@ -87,18 +87,27 @@ function ModalCreateuser(props) {
 
 
         //call apis
-        if (isValidateUsername == true && isValidateImage == true) {
+        // if (isValidateUsername == true && isValidateImage == true) {
+        //     var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
+        //     // console.log(">>>Check data update:", data)
+        //     if (data && data.EC == 1) {
+        //         toast.error(data.EM)
+        //     } else if (data && data.EC == 0) {
+        //         toast.success(data.EM)
+        //         handleClose();
+        //         fetchListUsers();
+        //     } else {
+        //         toast.error(data.EM)
+        //     }
+        // }
+        {
             var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
             // console.log(">>>Check data update:", data)
-            if (data && data.EC == 1) {
-                toast.error(data.EM)
-            } else if (data && data.EC == 0) {
-                toast.success(data.EM)
-                handleClose();
-                fetchListUsers();
-            } else {
-                toast.error(data.EM)
-            }
+
+            toast.success("Update succes")
+            handleClose();
+            fetchListUsers();
+
         }
     }
 

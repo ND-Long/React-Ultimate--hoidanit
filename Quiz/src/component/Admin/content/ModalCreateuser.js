@@ -36,6 +36,16 @@ function ModalCreateuser(props) {
             setPreviewImage("")
             setImage('')
         }
+
+        // var file = event.target.files[0];
+        // var reader = new FileReader();
+        // setPreviewImage(URL.createObjectURL(event.target.files[0]))
+        // reader.onloadend = function () {
+        //     console.log('RESULT', reader.result)
+        //     setImage(reader.result)
+        // }
+        // reader.readAsDataURL(file);
+
     }
 
     //submit user
@@ -48,7 +58,7 @@ function ModalCreateuser(props) {
             /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         );
 
-        var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
+        // var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
         var imageCheckType = document.getElementById('upload-image').value
 
         var typeImage = imageCheckType.substring(
@@ -69,12 +79,12 @@ function ModalCreateuser(props) {
             isValidatePassword = true
         }
 
-        if (!isValidateUsername) {
-            toast.error("Invalid Username")
-            isValidateUsername = false
-        } else {
-            isValidateUsername = true
-        }
+        // if (!isValidateUsername) {
+        //     toast.error("Invalid Username")
+        //     isValidateUsername = false
+        // } else {
+        //     isValidateUsername = true
+        // }
 
         if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
             || typeImage == "jpeg" || typeImage == "jpg" || typeImage == "jpeg") {
@@ -87,9 +97,9 @@ function ModalCreateuser(props) {
 
 
         //call apis
-        if (isValidateEmail == true && isValidatePassword == true && isValidateUsername == true && isValidateImage == true) {
+        if (isValidateEmail == true && isValidatePassword == true && isValidateImage == true) {
             var data = await postCreateUser(email, password, username, role, image)
-            // console.log(">>>Check data create:", data)
+            console.log(">>>Check data create:", data)
             if (data && data.EC == 1) {
                 toast.error(data.EM)
             } else if (data && data.EC == 0) {
@@ -101,6 +111,16 @@ function ModalCreateuser(props) {
                 toast.error(data.EM)
             }
         }
+        // if (isValidateEmail == true && isValidatePassword == true && isValidateImage == true) {
+        //     var data = await postCreateUser(email, password, username, role, image)
+        //     console.log(">>>Check data create:", data)
+
+        //     toast.success("Create success")
+        //     handleClose();
+        //     fetchListUsers();
+        //     backToPage1()
+
+        // }
     }
 
 

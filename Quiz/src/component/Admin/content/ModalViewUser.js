@@ -19,7 +19,6 @@ function ModalViewUser(props) {
 
     //clode modal
     const handleClose = () => {
-        console.log(">>>>Click close View User")
         onClickClose();
         setEmail("");
         setPassword("");
@@ -37,7 +36,6 @@ function ModalViewUser(props) {
             setUsername(inforUserUpdate.username);
             setRole(inforUserUpdate.role)
             setPreviewImage(`data:image/png;base64, ${inforUserUpdate.image}`)
-            // console.log(`data:image/png;base64, ${inforUserUpdate.image}`)
         }
     }, [inforUserUpdate])
 

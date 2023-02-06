@@ -3,12 +3,13 @@ import "./Auth.css"
 import { postLogin } from "../services/apiService"
 import { toast } from 'react-toastify';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-
+import { useDispatch } from "react-redux";
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const handleSubmitLogin = async () => {
         //validate
         var isValidateEmail = email.toLowerCase().match(
@@ -36,19 +37,20 @@ const Login = () => {
         if (isValidateEmail == true && isValidatePassword == true) {
 
             const dataLogin = await postLogin(email, password)
-            console.log(dataLogin)
-            if (dataLogin.EC == -1) {
-                toast.error(dataLogin.EM)
-            }
-
-            if (dataLogin.EC == -2) {
-                toast.error(dataLogin.EM)
-
-            }
+            // console.log(dataLogin)
             if (dataLogin.EC == 0) {
                 toast.success(dataLogin.EM)
+                dispatch({
+                    type: "FETCH_USER",
+                    payload: dataLogin
+                })
                 navigate('/')
             }
+            if (dataLogin.EC !== 0) {
+                toast.error(dataLogin.EM)
+            }
+
+
         }
     }
     const handleSignup = () => {

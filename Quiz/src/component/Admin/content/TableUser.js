@@ -77,9 +77,9 @@ const TableUser = (props) => {
                     }
                 </tbody>
             </table>
-            <div class="form-group col-md-2">
+            <div className="form-group col-md-2">
                 <input
-                    class="form-control"
+                    className="form-control"
                     id="inputPassword2"
                     placeholder="Limit of page"
                     type="number"
@@ -87,7 +87,7 @@ const TableUser = (props) => {
                     value={limitPerPage}
                     onChange={e => setLimitPerPage(e.target.value)}
                 />
-                <button type="submit" class="btn btn-success mb-2"
+                <button type="submit" className="btn btn-success mb-2"
                     onClick={handleSetLimitPerPage}
                 >Enter</button>
             </div>

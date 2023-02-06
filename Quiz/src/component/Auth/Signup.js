@@ -18,6 +18,7 @@ const Signup = () => {
         var isValidatePassword = password.match(
             /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         );
+
         var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
         if (!isValidateEmail) {
             toast.error("Invalid Email")
@@ -35,16 +36,18 @@ const Signup = () => {
 
 
         //call apis
-        const dataSignup = await postSignup(email, username, password)
-        console.log(">>>data signup", dataSignup)
+
         if (isValidateEmail == true && isValidatePassword == true) {
-            if (dataSignup.EC == -2) {
+            const dataSignup = await postSignup(email, username, password)
+            console.log(">>>data signup", dataSignup)
+            console.log(">>>Validate", !isValidateEmail)
+            if (dataSignup && dataSignup.EC == -2) {
                 toast.error(dataSignup.EM)
             }
-            if (dataSignup.EC == -1) {
+            if (dataSignup && dataSignup.EC == -1) {
                 toast.error(dataSignup.EM)
             }
-            if (dataSignup.EC == 0) {
+            if (dataSignup && dataSignup.EC == 0) {
                 toast.success(dataSignup.EM)
                 navigate("/")
             }

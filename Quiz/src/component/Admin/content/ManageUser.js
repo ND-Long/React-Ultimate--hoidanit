@@ -65,14 +65,15 @@ const ManageUser = (props) => {
 
     }, [limitPerPage, pageNumber])
 
-    //all api data list user
+    //test Mock API
     // const fetchListUsers = async () => {
-    //     let dataGetUser = await getAllUser()
-    //     console.log(">>>Data all: ", dataGetUser.DT)
-    //     if (dataGetUser.EC == 0) {
-    //         setListUsers(dataGetUser.DT)
-    //     }
+    //     let dataGetUser = await paginationUser(pageNumber, limitPerPage)
+    //     let dataAllUser = await getAllUser()
+    //     setTotalPages(dataAllUser.length / dataGetUser.length)
+    //     setListUsers(dataGetUser)
+
     // }
+
     const fetchListUsers = async () => {
         let dataGetUser = await paginationUser(pageNumber, limitPerPage)
 
