@@ -1,5 +1,13 @@
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+import NProgress from "nprogress"
+
+
+NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 30
+})
+
 const instance = axios.create({
     baseURL: "http://localhost:8081/",
 

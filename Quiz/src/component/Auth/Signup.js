@@ -3,12 +3,14 @@ import "./Auth.css"
 import { postSignup } from "../services/apiService"
 import { toast } from 'react-toastify';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-
+import { ImSpinner } from 'react-icons/im';
+import NProgress from "nprogress"
 
 const Signup = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
+    const [isDelaySignup, setIsDelaySignup] = useState(false)
     const navigate = useNavigate()
     const handleSubmitSignup = async () => {
         //validate
@@ -38,17 +40,20 @@ const Signup = () => {
         //call apis
 
         if (isValidateEmail == true && isValidatePassword == true) {
+            setIsDelaySignup(true)
+            NProgress.start();
             const dataSignup = await postSignup(email, username, password)
             console.log(">>>data signup", dataSignup)
             console.log(">>>Validate", !isValidateEmail)
-            if (dataSignup && dataSignup.EC == -2) {
-                toast.error(dataSignup.EM)
-            }
-            if (dataSignup && dataSignup.EC == -1) {
-                toast.error(dataSignup.EM)
+            if (dataSignup && dataSignup.EC != 0) {
+                setIsDelaySignup(false);
+                toast.error(dataSignup.EM);
+                NProgress.done();
             }
             if (dataSignup && dataSignup.EC == 0) {
                 toast.success(dataSignup.EM)
+                setIsDelaySignup(false)
+                NProgress.done();
                 navigate("/")
             }
         }
@@ -109,7 +114,14 @@ const Signup = () => {
                 <button
                     className="btn btn-dark col-12"
                     onClick={() => handleSubmitSignup()}
-                >Create my free account</button>
+                    disabled={isDelaySignup}
+
+                >
+                    {
+                        isDelaySignup && <ImSpinner className="iconLoading" />
+                    }
+                    <span> Create my free account</span>
+                </button>
                 <div className="goToHomePage">
                     <span onClick={() => { navigate("/") }}> &#60;&#60;&#60; Go to home page</span>
                 </div>

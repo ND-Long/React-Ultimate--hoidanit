@@ -1,19 +1,27 @@
-
-import { INCREMENT, DECREMENT } from '../action/counterAction';
+import { FETCH_USER_ACCESS_LOGIN } from '../action/userAction';
 const INITIAL_STATE = {
-    count: 0,
-    name: 'Eric'
+    account: {
+        access_token: "",
+        refresh_token: "",
+        username: "",
+        image: "",
+        role: ""
+    },
+    isAuthenticated: false
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case INCREMENT:
+        case FETCH_USER_ACCESS_LOGIN:
             return {
-                ...state, count: state.count + 1,
-            };
-
-        case DECREMENT:
-            return {
-                ...state, count: state.count - 1,
+                ...state,
+                account: {
+                    access_token: action?.payload?.DT?.access_token,
+                    refresh_token: action?.payload?.DT?.refresh_token,
+                    username: action?.payload?.DT?.username,
+                    image: action?.payload?.DT?.image,
+                    role: action?.payload?.DT?.role
+                },
+                isAuthenticated: true
             };
         default: return state;
     }

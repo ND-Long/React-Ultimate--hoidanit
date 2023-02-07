@@ -49,14 +49,14 @@ const paginationUser = (page, limit) => {
     return axios.get(`/api/v1/participant?page=${page}&limit=${limit}`)
 }
 
-const postLogin = (email, password) => {
-    return axios.post(`/api/v1/login`, { email, password })
+const postLogin = (email, password, delay) => {
+    return axios.post(`/api/v1/login`, { email, password, delay: 1000 })
 }
 // const postSignup = (email, username, password) => {
 //     return axios.post(`/api/v1/register`, { email, username, password })
 // }
-const postSignup = (email, username, password) => {
-    return axios.post(`/api/v1/participant`, { email, username, password })
+const postSignup = (email, username, password, delay) => {
+    return axios.post(`/api/v1/participant`, { email, username, password, delay: 1000 })
 }
 
 export { postCreateUser, getAllUser, putUpdateUser, deleteUser, paginationUser, postLogin, postSignup } 

@@ -4,10 +4,15 @@ import { postLogin } from "../services/apiService"
 import { toast } from 'react-toastify';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
+import { doLogin } from "../../redux/action/userAction";
+import { ImSpinner } from 'react-icons/im';
+import NProgress from "nprogress"
+
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [isDelayLogin, setIsDelayLogin] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const handleSubmitLogin = async () => {
@@ -34,25 +39,25 @@ const Login = () => {
 
 
         //call apis
-        if (isValidateEmail == true && isValidatePassword == true) {
 
+        if (isValidateEmail == true && isValidatePassword == true) {
+            NProgress.start();
+            setIsDelayLogin(true)
             const dataLogin = await postLogin(email, password)
-            // console.log(dataLogin)
             if (dataLogin.EC == 0) {
                 toast.success(dataLogin.EM)
-                dispatch({
-                    type: "FETCH_USER",
-                    payload: dataLogin
-                })
+                dispatch(doLogin(dataLogin))
+                setIsDelayLogin(false)
+                NProgress.done();
                 navigate('/')
             }
             if (dataLogin.EC !== 0) {
+                NProgress.done();
                 toast.error(dataLogin.EM)
             }
-
-
         }
     }
+
     const handleSignup = () => {
         navigate("/signup")
     }
@@ -62,10 +67,12 @@ const Login = () => {
         < div>
             <div className="header">
                 <div className="header-content">
-                    <span >Don't have an account yet?</span>
+                    <span
+                    >Don't have an account yet?</span>
                     <button
                         className="btnSignup"
                         onClick={() => handleSignup()}
+                        disabled={isDelayLogin}
                     >
                         Signup
                     </button>
@@ -91,17 +98,30 @@ const Login = () => {
                     onChange={e => setPassword(e.target.value)}
                 />
                 <div className="forgotPass">
-                    <span >Forgot password?</span>
+                    <span
+
+                    >Forgot password?</span>
                 </div>
                 <button
                     className="btn btn-dark col-12"
                     onClick={() => handleSubmitLogin()}
-                >Login to Quiz Test</button>
+                    disabled={isDelayLogin}
+                >
+                    {
+                        isDelayLogin && <ImSpinner className="iconLoading" />
+                    }
+                    <span
+                        hidden={isDelayLogin}
+                    >Login to Quiz Test</span>
+                </button>
                 <div className="goToHomePage">
-                    <span onClick={() => { navigate("/") }}> &#60;&#60;&#60; Go to home page</span>
+
+                    <span onClick={() => { navigate("/") }}
+
+                    > &#60;&#60;&#60; Go to home page</span>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
