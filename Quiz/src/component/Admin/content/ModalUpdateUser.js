@@ -8,12 +8,12 @@ import { putUpdateUser } from '../../services/apiService';
 import { async } from "q"
 import _ from "lodash"
 
-function ModalCreateuser(props) {
+function ModalUpdateUser(props) {
     const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate, backToPage1 } = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
-    const [role, setRole] = useState('')
+    const [role, setRole] = useState('USER')
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
 
@@ -23,9 +23,8 @@ function ModalCreateuser(props) {
             setEmail(inforUserUpdate.email);
             setPassword(inforUserUpdate.password);
             setUsername(inforUserUpdate.username);
-            setRole(inforUserUpdate.role)
+            inforUserUpdate.role == null ? setRole("USER") : setRole(inforUserUpdate.role);
             setPreviewImage(`data:image/png;base64, ${inforUserUpdate.image}`)
-            // console.log(`data:image/png;base64, ${inforUserUpdate.image}`)
         }
     }, [inforUserUpdate])
 
@@ -192,7 +191,7 @@ function ModalCreateuser(props) {
     );
 }
 
-export default ModalCreateuser
+export default ModalUpdateUser
 
 
 

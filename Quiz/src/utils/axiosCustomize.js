@@ -1,6 +1,9 @@
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import NProgress from "nprogress"
+import { store } from "../redux/store.js"
+
+
 
 
 NProgress.configure({
@@ -16,6 +19,10 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
+    const access_token = store?.getState()?.user?.account?.access_token
+    config.headers.common = { 'Authorization': `Bearer ${access_token} ` }
+
+    NProgress.start();
     return config;
 }, function (error) {
     // Do something with request error
@@ -24,14 +31,14 @@ instance.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
-    // console.log(">>>>Check response", response.data.DT)
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+
+    NProgress.done();
     return response && response.data ? response.data : response;
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    console.log(error.response.data)
     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 });
 

@@ -7,12 +7,11 @@ import "./Content.css"
 import _ from "lodash"
 
 function ModalViewUser(props) {
-    const { show, onClickClose, fetchListUsers, inforUserUpdate, resetDataUpdate } = props
+    const { show, onClickClose, inforUserUpdate, resetDataUpdate } = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
     const [role, setRole] = useState('')
-    const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
 
 
@@ -25,7 +24,6 @@ function ModalViewUser(props) {
         setUsername("");
         setRole('USER');
         setPreviewImage('')
-        setImage('')
         resetDataUpdate()
     }
 

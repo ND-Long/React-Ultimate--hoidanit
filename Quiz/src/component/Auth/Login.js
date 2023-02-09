@@ -10,6 +10,7 @@ import NProgress from "nprogress"
 
 
 const Login = () => {
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isDelayLogin, setIsDelayLogin] = useState(false)
@@ -30,29 +31,27 @@ const Login = () => {
             isValidateEmail = true
         }
 
-        if (!isValidatePassword) {
-            toast.error("Invalid Password")
-            isValidatePassword = false
-        } else {
-            isValidatePassword = true
-        }
+        // if (!isValidatePassword) {
+        //     toast.error("Invalid Password")
+        //     isValidatePassword = false
+        // } else {
+        //     isValidatePassword = true
+        // }
 
 
         //call apis
 
-        if (isValidateEmail == true && isValidatePassword == true) {
-            NProgress.start();
+        if (isValidateEmail == true) {
             setIsDelayLogin(true)
             const dataLogin = await postLogin(email, password)
             if (dataLogin.EC == 0) {
                 toast.success(dataLogin.EM)
                 dispatch(doLogin(dataLogin))
                 setIsDelayLogin(false)
-                NProgress.done();
+
                 navigate('/')
             }
             if (dataLogin.EC !== 0) {
-                NProgress.done();
                 toast.error(dataLogin.EM)
             }
         }
