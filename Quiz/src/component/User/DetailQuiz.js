@@ -78,11 +78,48 @@ const DetailtQuiz = (props) => {
                 setQuizDatas(quizDatasClone)
             }
         }
+    }
 
+    const handleFinish = () => {
+        // {
+        //     "quizId": 1,
+        //     "answers": [
+        //         { 
+        //             "questionId": 1,
+        //             "userAnswerId": [3]
+        //         },
+        //         { 
+        //             "questionId": 2,
+        //             "userAnswerId": [6]
+        //         }
+        //     ]
+        // }
+        let payload = {
+            quizId: +params.id,
+            answers: []
+        };
 
+        let answers = [];
 
+        if (quizDatas && quizDatas.length > 0) {
+            quizDatas.forEach(item => {
+                let questionId = item.questionId
+                let userAnswerId = []
 
-
+                item.answers.map(item => {
+                    if (item.isSelected == true) {
+                        userAnswerId.push(item.id)
+                    }
+                })
+                answers.push({
+                    questionId: questionId,
+                    userAnswerId: userAnswerId
+                })
+            })
+        }
+        console.log(answers)
+        payload.answers = answers
+        console.log(payload)
     }
 
     return (
@@ -120,6 +157,7 @@ const DetailtQuiz = (props) => {
                     >Next</button>
                     <button
                         className="btn btn-warning"
+                        onClick={() => handleFinish()}
                     >Finish</button>
                 </div>
             </div>
