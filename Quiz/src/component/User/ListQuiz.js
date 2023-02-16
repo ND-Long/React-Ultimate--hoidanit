@@ -15,6 +15,7 @@ const ListQuiz = (props) => {
             navigate("/login")
         } else {
             getQUizData()
+
         }
     }, [])
 
@@ -23,7 +24,6 @@ const ListQuiz = (props) => {
         if (quizData && quizData.EC == 0) {
             setArrQuiz(quizData.DT)
         }
-
     }
 
     return (
@@ -35,7 +35,7 @@ const ListQuiz = (props) => {
                         <div className="card-body">
                             <h5 className="card-title">Quiz {index + 1}</h5>
                             <p className="card-text">{quiz.description}</p>
-                            <a href="#" className="btn btn-primary" >Go somewhere</a>
+                            <a className="btn btn-primary" onClick={() => { navigate(`/quiz/${quiz.id}`, { state: quiz.description }) }}>Start now</a>
                         </div>
                     </div>
                 )

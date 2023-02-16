@@ -1,9 +1,13 @@
 import './App.css';
 import Header from './component/Header/Header';
 import { Link, Outlet, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const App = () => {
 
+  // useEffect(() => {
+  //   document.title = 'Quiz';
+  // }, []);
   return (
     <div className="app-container">
       {/* Header */}

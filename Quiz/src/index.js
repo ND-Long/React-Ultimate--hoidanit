@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -7,14 +7,19 @@ import Layout from './Layout';
 import { Provider } from 'react-redux';
 import { store } from "./redux/store"
 import "nprogress/nprogress.css"
+import TestComponent from './TestComponent';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   // <React.StrictMode>
+
   <Provider store={store}>
     <BrowserRouter>
       <Layout />
+      {/* <TestComponent /> */}
     </BrowserRouter>
   </Provider>
 

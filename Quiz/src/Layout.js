@@ -11,6 +11,28 @@ import Signup from './component/Auth/Signup';
 import App from './App';
 import { ToastContainer, toast } from 'react-toastify';
 import ListQuiz from './component/User/ListQuiz';
+import DetailtQuiz from './component/User/DetailQuiz';
+import { useNavigate } from 'react-router-dom';
+import './Layout.css'
+
+const NotFound = () => {
+    const navigate = useNavigate()
+
+    return (
+        <div class="page_404 container">
+            <div class="four_zero_four_bg">
+                <h1>404</h1>
+            </div>
+            <div class="contant_box_404">
+                <h3 class="h2">
+                    Look like you're lost
+                </h3>
+                <p>the page you are looking for not avaible!</p>
+                <button class="link_404" onClick={() => { navigate("./") }}>Go to Home</button>
+            </div>
+        </div >
+    )
+}
 
 const Layout = () => {
     return (
@@ -33,6 +55,13 @@ const Layout = () => {
                 </Route>
 
                 <Route path="/signup" element={<Signup />} >
+
+                </Route>
+                <Route path="/quiz/:id" element={<DetailtQuiz />} >
+
+                </Route>
+
+                <Route path="*" element={<NotFound />} >
 
                 </Route>
             </Routes>

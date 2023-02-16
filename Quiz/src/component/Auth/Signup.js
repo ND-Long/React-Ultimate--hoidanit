@@ -17,9 +17,10 @@ const Signup = () => {
         var isValidateEmail = email.toLowerCase().match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
-        var isValidatePassword = password.match(
-            /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-        );
+        // var isValidatePassword = password.match(
+        //     /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        // );
+
 
         var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
         if (!isValidateEmail) {
@@ -29,22 +30,20 @@ const Signup = () => {
             isValidateEmail = true
         }
 
-        if (!isValidatePassword) {
-            toast.error("Invalid Password")
-            isValidatePassword = false
-        } else {
-            isValidatePassword = true
-        }
+        // if (!isValidatePassword) {
+        //     toast.error("Invalid Password")
+        //     isValidatePassword = false
+        // } else {
+        //     isValidatePassword = true
+        // }
 
 
         //call apis
 
-        if (isValidateEmail == true && isValidatePassword == true) {
+        if (isValidateEmail == true && password.length >= 6) {
             setIsDelaySignup(true)
             NProgress.start();
             const dataSignup = await postSignup(email, username, password)
-            console.log(">>>data signup", dataSignup)
-            console.log(">>>Validate", !isValidateEmail)
             if (dataSignup && dataSignup.EC != 0) {
                 setIsDelaySignup(false);
                 toast.error(dataSignup.EM);
