@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getDataQuizById } from "../services/apiService"
+import { getDataQuizById, postSubmitQuiz } from "../services/apiService"
 import _ from 'lodash';
 import "./DetailQuiz.css"
 import { useLocation } from "react-router-dom";
 import Question from "./Question";
+import ModalSubmitQuiz from "./ModalSubmitQuiz";
+import { Toast } from "bootstrap";
+import { toast } from "react-toastify";
 const DetailtQuiz = (props) => {
     const [quizDatas, setQuizDatas] = useState([])
     const [index, setIndex] = useState(0)
     const [clickPrev, setClickPrev] = useState(false)
     const [clickNext, setClickNext] = useState(false)
+    const [showModalSubmit, setShowModalSubmit] = useState(false)
+    const [dataSubmit, setDataSubmit] = useState({})
     const questions = []
     const params = useParams()
     const location = useLocation()
@@ -80,7 +85,7 @@ const DetailtQuiz = (props) => {
         }
     }
 
-    const handleFinish = () => {
+    const handleFinish = async () => {
         // {
         //     "quizId": 1,
         //     "answers": [
@@ -94,77 +99,93 @@ const DetailtQuiz = (props) => {
         //         }
         //     ]
         // }
-        let payload = {
+        const payload = {
             quizId: +params.id,
             answers: []
-        };
-
-        let answers = [];
-
+        }
+        let answers = []
         if (quizDatas && quizDatas.length > 0) {
-            quizDatas.forEach(item => {
-                let questionId = item.questionId
+            quizDatas.forEach(question => {
+                let questionId = question.questionId
                 let userAnswerId = []
-
-                item.answers.map(item => {
-                    if (item.isSelected == true) {
-                        userAnswerId.push(item.id)
+                question.answers.map(answer => {
+                    if (answer.isSelected == true) {
+                        userAnswerId.push(answer.id)
                     }
                 })
                 answers.push({
-                    questionId: questionId,
+                    questionId: +questionId,
                     userAnswerId: userAnswerId
                 })
             })
         }
-        console.log(answers)
         payload.answers = answers
-        console.log(payload)
+        var dataSubmitQuiz = await postSubmitQuiz(payload)
+
+        if (dataSubmitQuiz && dataSubmitQuiz.EC == 0) {
+
+            setDataSubmit({
+                countCorrect: dataSubmitQuiz.DT.countCorrect,
+                countTotal: dataSubmitQuiz.DT.countTotal,
+                quizDatas: dataSubmitQuiz.DT.quizDatas
+            })
+            setShowModalSubmit(true)
+        } else {
+            toast.error("Something wrongs...")
+        }
     }
 
     return (
-        <div className="question-container">
-            <div className="question-body">
-                <div className="question-header">
-                    Quiz {params.id}: {location?.state}
+        <>
+            <div className="question-container">
+                <div className="question-body">
+                    <div className="question-header">
+                        Quiz {params.id}: {location?.state}
+                    </div>
+
+                    <hr />
+
+                    <div className="question-content">
+                        <Question
+                            dataQuiz={quizDatas && quizDatas.length > 0 ?
+                                quizDatas[index]
+                                :
+                                []
+                            }
+                            questionId={index}
+                            answers={quizDatas[index]}
+                            onClickCheckbox={handleCheckBox}
+                        />
+                    </div>
+
+                    <div className="footer">
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => handlePrev()}
+                            disabled={clickPrev}
+                        >Prev</button>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => handleNext()}
+                            disabled={clickNext}
+                        >Next</button>
+                        <button
+                            className="btn btn-warning"
+                            onClick={() => handleFinish()}
+                        >Finish</button>
+                    </div>
+                </div>
+                <div className="countdown">
+                    countdown
                 </div>
 
-                <hr />
-
-                <div className="question-content">
-                    <Question
-                        dataQuiz={quizDatas && quizDatas.length > 0 ?
-                            quizDatas[index]
-                            :
-                            []
-                        }
-                        questionId={index}
-                        answers={quizDatas[index]}
-                        onClickCheckbox={handleCheckBox}
-                    />
-                </div>
-
-                <div className="footer">
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => handlePrev()}
-                        disabled={clickPrev}
-                    >Prev</button>
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => handleNext()}
-                        disabled={clickNext}
-                    >Next</button>
-                    <button
-                        className="btn btn-warning"
-                        onClick={() => handleFinish()}
-                    >Finish</button>
-                </div>
-            </div>
-            <div className="countdown">
-                countdown
-            </div>
-        </div >
+            </div >
+            <ModalSubmitQuiz
+                show={showModalSubmit}
+                setShow={setShowModalSubmit}
+                dataSubmitQuiz={dataSubmit}
+            />
+        </>
     )
 }
 
