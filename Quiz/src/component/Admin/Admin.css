@@ -78,3 +78,8 @@
 .modal-creat-user {
     width: 100% !important;
 }
+
+.content-admin-in {
+    overflow: scroll;
+    height: 100vh;
+}

@@ -4,9 +4,8 @@ import "./Admin.css"
 import { useState } from 'react';
 import React from 'react';
 import DashBoard from './content/DashBoard';
-import ManageUser from './content/ManageUser';
+import ManageUser from './content/User/ManageUser';
 import { Outlet } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = (props) => {
     const [collapsed, setCollapsed] = useState(false)

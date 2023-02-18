@@ -48,7 +48,7 @@ const TableUser = (props) => {
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,7 @@ const TableUser = (props) => {
                                     <td>{item.role}</td>
                                     <td>
                                         <button className="btn btn-info mx-1" onClick={() => handleClickViewUser(item)} >View</button>
-                                        <button className="btn btn-warning mx-1" onClick={() => handleClickShowUpdate(item)}>Update</button>
+                                        <button className="btn btn-warning mx-1" onClick={() => handleClickShowUpdate(item)}>Edit</button>
                                         <button className="btn btn-danger mx-1" onClick={() => handleClickDeleteUser(item)}>Delete</button>
                                     </td>
                                 </tr>

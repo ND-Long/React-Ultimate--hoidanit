@@ -1,7 +1,7 @@
 import 'react-pro-sidebar/dist/css/styles.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FaTachometerAlt, FaGem, FaGithub, FaFacebook, FaRegLaughWink, FaHeart } from 'react-icons/fa';
-import sidebarBg from "../../assets/bgSidebarAdmin.jpg"
+import sidebarBg from "../../assets/backGroundSky.jpg"
 import {
     ProSidebar,
     Menu,
@@ -86,9 +86,9 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                             className="sidebar-btn"
                             rel="noopener noreferrer"
                         >
-                            <FaFacebook />
+                            <FaGithub />
                             <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                                Google
+                                Source
                             </span>
                         </a>
                     </div>

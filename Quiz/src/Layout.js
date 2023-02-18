@@ -3,9 +3,9 @@ import Admin from './component/Admin/Admin';
 import User from './component/User/User';
 import Home from './component/Home/Home';
 import DashBoard from './component/Admin/content/DashBoard';
-import ManageUser from './component/Admin/content/ManageUser';
-import ManageQuiz from './component/Admin/content/ManageQuiz';
-import ManageQuestion from './component/Admin/content/ManageQuestion';
+import ManageUser from './component/Admin/content/User/ManageUser';
+import ManageQuiz from './component/Admin/content/Quizzes/ManageQuiz';
+import ManageQuestion from './component/Admin/content/Questions/ManageQuestion';
 import Login from './component/Auth/Login';
 import Signup from './component/Auth/Signup';
 import App from './App';
@@ -66,7 +66,7 @@ const Layout = () => {
                 </Route>
             </Routes>
             <ToastContainer
-                position="top-center"
+                position="top-right"
                 autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}

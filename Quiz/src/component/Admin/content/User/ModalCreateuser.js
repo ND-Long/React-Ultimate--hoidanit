@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "./Content.css"
-import { postCreateUser } from '../../services/apiService';
+import "../Content.css"
+import { postCreateUser } from '../../../services/apiService';
 import { async } from "q"
 
 function ModalCreateuser(props) {
@@ -57,7 +57,7 @@ function ModalCreateuser(props) {
         // var isValidatePassword = password.match(
         //     /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         // );
-        var isValidatePassword = password.length > 6;
+        var isValidatePassword;
         // var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
         var imageCheckType = document.getElementById('upload-image').value
 
@@ -72,7 +72,7 @@ function ModalCreateuser(props) {
             isValidateEmail = true
         }
 
-        if (!isValidatePassword) {
+        if (password.length < 6) {
             toast.error("Invalid Password")
             isValidatePassword = false
         } else {
@@ -183,8 +183,6 @@ function ModalCreateuser(props) {
                                     :
                                     <span >Preview Image</span>
                                 }
-
-
                             </div>
                         </div>
                     </form>

@@ -1,7 +1,7 @@
 import ModalCreateuser from "./ModalCreateuser"
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from "react"
-import { getAllUser, paginationUser } from "../../services/apiService"
+import { getAllUser, paginationUser } from "../../../services/apiService"
 import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
@@ -17,7 +17,7 @@ const ManageUser = (props) => {
     const [inforUserUpdate, setInforUserUpdate] = useState([])
     const [listUsers, setListUsers] = useState([])
     const [pageNumber, setPageNumber] = useState(1)
-    const [limitPerPage, setLimitPerPage] = useState(5)
+    const [limitPerPage, setLimitPerPage] = useState(4)
     const handleShow = () => {
         setShowModal(true)
     }
@@ -50,7 +50,6 @@ const ManageUser = (props) => {
         setShowModalDeleteUser(false)
     }
     const handleSetPageNumber = (event) => {
-        console.log(">>>>Page Number:", event)
         setPageNumber(event)
     }
     const handleSetLimitPerPage = (event) => {
@@ -62,17 +61,8 @@ const ManageUser = (props) => {
     //componentDidmount
     useEffect(() => {
         fetchListUsers()
-
     }, [limitPerPage, pageNumber])
 
-    //test Mock API
-    // const fetchListUsers = async () => {
-    //     let dataGetUser = await paginationUser(pageNumber, limitPerPage)
-    //     let dataAllUser = await getAllUser()
-    //     setTotalPages(dataAllUser.length / dataGetUser.length)
-    //     setListUsers(dataGetUser)
-
-    // }
 
     const fetchListUsers = async () => {
         let dataGetUser = await paginationUser(pageNumber, limitPerPage)

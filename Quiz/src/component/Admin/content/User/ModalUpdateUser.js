@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "./Content.css"
-import { putUpdateUser } from '../../services/apiService';
+import "../Content.css"
+import { putUpdateUser } from '../../../services/apiService';
 import { async } from "q"
 import _ from "lodash"
 
@@ -13,9 +13,9 @@ function ModalUpdateUser(props) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
-    const [role, setRole] = useState('USER')
-    const [image, setImage] = useState('')
-    const [previewImage, setPreviewImage] = useState('')
+    const [role, setRole] = useState("")
+    const [image, setImage] = useState("")
+    const [previewImage, setPreviewImage] = useState("")
 
 
     useEffect(() => {
@@ -62,14 +62,6 @@ function ModalUpdateUser(props) {
             imageCheckType.lastIndexOf('.') + 1).toLowerCase();
         var isValidateImage
 
-
-        // if (!isValidateUsername) {
-        //     toast.error("Invalid Username")
-        //     isValidateUsername = false
-        // } else {
-        //     isValidateUsername = true
-        // }
-
         if (!previewImage) {
             if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
                 || typeImage == "jpeg" || typeImage == "jpg" || typeImage == "jpeg") {
@@ -86,27 +78,14 @@ function ModalUpdateUser(props) {
 
 
         //call apis
-        // if (isValidateUsername == true && isValidateImage == true) {
-        //     var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
-        //     // console.log(">>>Check data update:", data)
-        //     if (data && data.EC == 1) {
-        //         toast.error(data.EM)
-        //     } else if (data && data.EC == 0) {
-        //         toast.success(data.EM)
-        //         handleClose();
-        //         fetchListUsers();
-        //     } else {
-        //         toast.error(data.EM)
-        //     }
-        // }
-        {
-            var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
-            // console.log(">>>Check data update:", data)
-
+        var data = await putUpdateUser(inforUserUpdate.id, username, role, image)
+        if (data && data.EC == 0) {
             toast.success("Update succes")
             handleClose();
-            fetchListUsers();
-
+            await fetchListUsers();
+        }
+        if (data && data.EC !== 0) {
+            toast.error(data.EM)
         }
     }
 
@@ -130,7 +109,7 @@ function ModalUpdateUser(props) {
                             <div className="col-md-6">
                                 <label >Email</label>
                                 <input type="email" className="form-control" placeholder="Email"
-                                    value={email}
+                                    value={email || ""}
                                     disabled={true}
                                     onChange={event => setEmail(event.target.value)}
                                 />
@@ -138,7 +117,7 @@ function ModalUpdateUser(props) {
                             <div className="col-md-6">
                                 <label >Password</label>
                                 <input type="password" className="form-control" placeholder="Password"
-                                    value={password}
+                                    value={password || ""}
                                     disabled={true}
                                     onChange={event => setPassword(event.target.value)}
                                 />
@@ -146,14 +125,14 @@ function ModalUpdateUser(props) {
                             <div className="form-group col-md-6">
                                 <label >Username</label>
                                 <input type="text" className="form-control" placeholder="Username"
-                                    value={username}
+                                    value={username || ""}
                                     onChange={event => setUsername(event.target.value)}
                                 />
                             </div>
                             <div className="form-group col-md-3">
                                 <label >Role</label>
                                 <select className="form-control"
-                                    value={role}
+                                    value={role || ""}
                                     onChange={event => setRole(event.target.value)}
                                 >
                                     <option >USER</option>
@@ -172,8 +151,6 @@ function ModalUpdateUser(props) {
                                     :
                                     <span >Preview Image</span>
                                 }
-
-
                             </div>
                         </div>
                     </form>

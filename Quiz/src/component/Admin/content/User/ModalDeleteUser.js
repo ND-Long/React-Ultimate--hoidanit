@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "./Content.css"
+import "../Content.css"
 import _ from "lodash"
-import { deleteUser } from '../../services/apiService';
+import { deleteUser } from '../../../services/apiService';
 
 
 function ModalDeleteUser(props) {
