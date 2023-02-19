@@ -14,6 +14,7 @@ import { getAllQuiz, postAnswer, postQuestion } from "../../../services/apiServi
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { ImSpinner } from 'react-icons/im';
 
 const ManageQuestion = () => {
     const navigate = useNavigate()
@@ -22,10 +23,7 @@ const ManageQuestion = () => {
     const [isPreview, setIsPreview] = useState(false)
     const [dataQuiz, setDataQuiz] = useState({})
     const [listQuizzes, setListQuizzes] = useState([])
-    const [countAnswer, setCountAnswer] = useState(0)
-
-    const options = listQuizzes
-
+    const [isDelayLogin, setIsDelayLogin] = useState(false)
 
     const [selectedQuiz, setSelectedQuiz] = useState({})
     const [questions, setQuestions] = useState(
@@ -45,6 +43,22 @@ const ManageQuestion = () => {
             }
         ]
     )
+
+    const initQuestion = [
+        {
+            id: uuidv4(),
+            description: "",
+            imageFile: "",
+            imageName: "",
+            answers: [
+                {
+                    id: uuidv4(),
+                    description: "",
+                    isCorrect: false
+                }
+            ]
+        }
+    ]
 
     const handleAddRemoveQuestion = (type, idQuestion) => {
         let cloneQuestions = _.cloneDeep(questions)
@@ -182,20 +196,70 @@ const ManageQuestion = () => {
 
 
     const handleSaveQuestions = async () => {
+
         //validate selected quiz
+        if (_.isEmpty(selectedQuiz)) {
+            toast.error("Invalid Select Quiz")
+            setIsDelayLogin(false)
+            return
+        }
+        let indexQues = 0
+        for (const question of questions) {
+            indexQues++
+            var countIsCorrect = 0
+
+            //validate description question
+            if (question.description.length === 0) {
+                toast.error(`Description is empty in question ${indexQues}`)
+                return
+            }
+
+            //validate number of answers
+            if (question.answers.length < 2) {
+                toast.error(`The number of answers must be more than 1 in question ${indexQues}`)
+                return
+            }
+
+            let indexAns = 0
+            for (const answer of question.answers) {
+                indexAns++
+                //validate description answer
+                if (answer.description.length === 0) {
+                    toast.error(`Description is empty in in question ${indexQues}, answer ${indexAns}`)
+                    return
+                }
+                if (answer.isCorrect === true) {
+                    countIsCorrect++;
+                }
+            }
+
+            //validate number of correct answers
+            if (countIsCorrect == 0) {
+                toast.error(`There must be 1 correct answer in question ${indexQues}`)
+                return
+            }
+        }
+
+
 
         //submit api question, answers
-        await Promise.all(questions.map(async (question) => {
-            const resQues = await postQuestion(selectedQuiz.value, question.description, question.imageFile)
-            console.log(resQues)
-            await Promise.all(question.answers.map(async (answer) => {
-                const resAns = await postAnswer(resQues.DT.id, answer.description, answer.isCorrect)
-                console.log(resAns)
-            }))
-        }))
+        for (const question of questions) {
+            setIsDelayLogin(true)
+            var resQues = await postQuestion(+selectedQuiz.value, question.description, question.imageFile)
+            for (const answer of question.answers) {
+                var resAns = await postAnswer(resQues.DT.id, answer.description, answer.isCorrect)
+            }
+        }
+
+        if (resQues && resAns) {
+            setIsDelayLogin(false)
+        }
+
+        if (resQues && resQues.EC === 0 && resAns && resAns.EC === 0) {
+            setQuestions(initQuestion)
+            toast.success("Create questions and answers succeeded")
+        }
     }
-
-
 
     return (
         <div className="managerPage question">
@@ -204,7 +268,7 @@ const ManageQuestion = () => {
             <div className='select-question col-md-6'>
                 <label>Select Quiz:</label>
                 <Select
-                    options={options}
+                    options={listQuizzes}
                     onChange={(event) => setSelectedQuiz(event)}
                 />
             </div>
@@ -273,7 +337,7 @@ const ManageQuestion = () => {
 
                                             {/* onchange answer */}
                                             <div className="form-floating mt-3 col-md-6 ">
-                                                <input type="text" className="form-control" placeholder="Answer" required
+                                                <input type="text" className="form-control" placeholder="Answer"
                                                     onChange={(event) => handleChangeAnswer("ANSWER", question.id, answer.id, event.target.value)}
 
                                                 />
@@ -301,10 +365,14 @@ const ManageQuestion = () => {
                 })
             }
 
-            <button className='btn btn-warning mb-5'
+            <button className='btn save-questionAnswer btn-success mb-5'
                 onClick={() => handleSaveQuestions()}
+                disabled={isDelayLogin}
             >
-                Save Questions
+                {
+                    isDelayLogin && <ImSpinner className="iconLoading" />
+                }
+                <span hidden={isDelayLogin}> Save </span>
             </button>
             {
                 isPreview &&
