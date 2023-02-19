@@ -10,20 +10,24 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from "lodash"
 import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
+import { getAllQuiz, postAnswer, postQuestion } from "../../../services/apiService"
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ManageQuestion = () => {
-
+    const navigate = useNavigate()
     const [showPreviewImage, setShowPreviewImage] = useState(false)
     const [imagePreviewName, setImagePreviewName] = useState(false)
     const [isPreview, setIsPreview] = useState(false)
+    const [dataQuiz, setDataQuiz] = useState({})
+    const [listQuizzes, setListQuizzes] = useState([])
+    const [countAnswer, setCountAnswer] = useState(0)
 
-    const options = [
-        { value: 'EASY', label: 'EASY' },
-        { value: 'MEDIUM', label: 'MEDIUM' },
-        { value: 'HARD', label: 'HARD' }
-    ]
+    const options = listQuizzes
 
-    const [selectQuiz, setSelectQuiz] = useState({})
+
+    const [selectedQuiz, setSelectedQuiz] = useState({})
     const [questions, setQuestions] = useState(
         [
             {
@@ -44,7 +48,7 @@ const ManageQuestion = () => {
 
     const handleAddRemoveQuestion = (type, idQuestion) => {
         let cloneQuestions = _.cloneDeep(questions)
-        if (type == "ADD") {
+        if (type === "ADD") {
             const newQuestion = {
                 id: uuidv4(),
                 description: "",
@@ -61,7 +65,7 @@ const ManageQuestion = () => {
             cloneQuestions.push(newQuestion)
             setQuestions(cloneQuestions)
         }
-        if (type == "REMOVE") {
+        if (type === "REMOVE") {
             cloneQuestions = cloneQuestions.filter(item => item.id !== idQuestion)
             setQuestions(cloneQuestions)
         }
@@ -69,20 +73,20 @@ const ManageQuestion = () => {
 
     const handleAddRemoveAnswer = (type, idQuestion, idAnswer) => {
         let cloneQuestions = _.cloneDeep(questions)
-        if (type == "ADD") {
+        if (type === "ADD") {
             const newAnswer = {
                 id: uuidv4(),
-                description: "answer 1",
+                description: "",
                 isCorrect: false
             }
-            let index = cloneQuestions.findIndex(item => item.id == idQuestion)
+            let index = cloneQuestions.findIndex(item => item.id === idQuestion)
             if (index > -1) {
                 cloneQuestions[index].answers.push(newAnswer)
                 setQuestions(cloneQuestions)
             }
         }
-        if (type == "REMOVE") {
-            let index = cloneQuestions.findIndex(item => item.id == idQuestion)
+        if (type === "REMOVE") {
+            let index = cloneQuestions.findIndex(item => item.id === idQuestion)
             if (index > -1) {
                 let answerDelete = cloneQuestions[index].answers.filter(item => item.id !== idAnswer)
                 cloneQuestions[index].answers = answerDelete
@@ -93,7 +97,7 @@ const ManageQuestion = () => {
 
     const handleOnchange = (type, idQuestion, value) => {
         let cloneQuestions = _.cloneDeep(questions)
-        if (type == "QUESTION") {
+        if (type === "QUESTION") {
             let index = cloneQuestions.findIndex(item => item.id === idQuestion)
             cloneQuestions[index].description = value
             setQuestions(cloneQuestions)
@@ -140,17 +144,11 @@ const ManageQuestion = () => {
                 item.description = event
             }
             if (type === "CHECKBOX" && item.id === idAnswer) {
-                console.log(item)
                 item.isCorrect = event
             }
             return item
         })
         setQuestions(cloneQuestions)
-
-    }
-
-    const handleSaveQuestions = () => {
-        console.log(questions)
     }
 
     const handlePreviewImageQuestion = (image, name) => {
@@ -163,6 +161,40 @@ const ManageQuestion = () => {
         }
     }
 
+    useEffect(() => {
+        fetchAllQuiz()
+    }, [])
+
+    const fetchAllQuiz = async () => {
+        const res = await getAllQuiz()
+        if (res.EM === "Not authenticated the user") {
+            navigate("/login")
+        } else {
+            const newQuiz = await res.DT.map((item, index) => {
+                return {
+                    value: item.id,
+                    label: `${item.id}: ${item.description}`
+                }
+            })
+            setListQuizzes(newQuiz)
+        }
+    }
+
+
+    const handleSaveQuestions = async () => {
+        //validate selected quiz
+
+        //submit api question, answers
+        await Promise.all(questions.map(async (question) => {
+            const resQues = await postQuestion(selectedQuiz.value, question.description, question.imageFile)
+            console.log(resQues)
+            await Promise.all(question.answers.map(async (answer) => {
+                const resAns = await postAnswer(resQues.DT.id, answer.description, answer.isCorrect)
+                console.log(resAns)
+            }))
+        }))
+    }
+
 
 
     return (
@@ -171,7 +203,10 @@ const ManageQuestion = () => {
             <hr />
             <div className='select-question col-md-6'>
                 <label>Select Quiz:</label>
-                <Select options={options} />
+                <Select
+                    options={options}
+                    onChange={(event) => setSelectedQuiz(event)}
+                />
             </div>
 
             {/* add new question */}

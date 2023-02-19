@@ -147,7 +147,7 @@ const ManageQuiz = () => {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-
+            <h5 className="mt-4">List quizzes</h5>
             <div className="table-quiz">
                 <TableQuiz
                     listQuiz={dataQuiz}
