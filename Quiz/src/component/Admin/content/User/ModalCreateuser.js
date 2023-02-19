@@ -111,16 +111,6 @@ function ModalCreateuser(props) {
                 toast.error(data.EM)
             }
         }
-        // if (isValidateEmail == true && isValidatePassword == true && isValidateImage == true) {
-        //     var data = await postCreateUser(email, password, username, role, image)
-        //     console.log(">>>Check data create:", data)
-
-        //     toast.success("Create success")
-        //     handleClose();
-        //     fetchListUsers();
-        //     backToPage1()
-
-        // }
     }
 
 
