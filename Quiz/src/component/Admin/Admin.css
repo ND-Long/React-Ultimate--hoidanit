@@ -29,18 +29,14 @@
 
 .sidebar-btn-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: center; */
 }
 
 
-.sidebar-btn-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .sidebar-btn {
+
     transition: width 0.3s;
     width: 150px;
     padding: 1px 15px;

@@ -4,12 +4,16 @@ import { useEffect, useState } from "react"
 import { type } from "@testing-library/user-event/dist/type"
 import { postNewQuiz } from "../../../services/apiService"
 import { getAllQuiz } from "../../../services/apiService"
+import { getAllUser } from "../../../services/apiService"
 import { toast } from "react-toastify"
 import TableQuiz from "./TableQuiz"
 import Accordion from 'react-bootstrap/Accordion';
 import ModalDeleteQuiz from "./ModalDeleteQuiz"
 import ModalUpdateQuiz from "./ModalUpdateQuiz"
 import { useNavigate } from "react-router-dom"
+import AssignQuiz from "./AssignQuiz"
+import QuizQA from "./QuizQA"
+import { async } from "q"
 const options = [
     { value: 'EASY', label: 'EASY' },
     { value: 'MEDIUM', label: 'MEDIUM' },
@@ -28,6 +32,10 @@ const ManageQuiz = () => {
     const [showModalUpdate, setShowModalUpdate] = useState(false)
     const [inforDeleteQuiz, setInforDeleteQuiz] = useState('')
     const [inforUpdateQuiz, setInforUpdateQuiz] = useState('')
+    const [listQuizzes, setListQuizzes] = useState({})
+    const [listUsers, setListUsers] = useState({})
+
+
     //up preview image 
     const handleUpImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -58,10 +66,14 @@ const ManageQuiz = () => {
         }
     }
 
+    // useEffect(() => {
+    //     fetchAllQuiz()
+    // }, [])
+
     useEffect(() => {
         fetchAllQuiz()
+        fetchAllUser()
     }, [dataAddQuiz])
-
 
     const fetchAllQuiz = async () => {
         const res = await getAllQuiz()
@@ -69,8 +81,33 @@ const ManageQuiz = () => {
             navigate("/login")
         } else {
             setDataQuiz(res.DT)
+            const newQuiz = await res.DT.map((item, index) => {
+                return {
+                    value: item.id,
+                    label: `${item.id}: ${item.description}`
+                }
+            })
+
+            setListQuizzes(newQuiz)
         }
     }
+
+    const fetchAllUser = async () => {
+        const res = await getAllUser()
+        if (res.EM == "Not authenticated the user") {
+            navigate("/login")
+        } else {
+            const allUser = await res.DT.map((item, index) => {
+                return {
+                    value: item.id,
+                    label: `${item.id} - ${item.username} - ${item.email}`
+                }
+            })
+            setListUsers(allUser)
+        }
+    }
+
+
 
     const handleDelete = (quiz) => {
         setInforDeleteQuiz(quiz)
@@ -95,7 +132,7 @@ const ManageQuiz = () => {
         <div className="managerPage quiz">
             <Accordion defaultActiveKey="1">
                 <Accordion.Item eventKey="0">
-                    <Accordion.Header><h4>Manage Quiz</h4></Accordion.Header>
+                    <Accordion.Header><h5>Manage Quiz</h5></Accordion.Header>
                     <Accordion.Body>
                         <div className="add-quiz">
                             <hr />
@@ -141,35 +178,39 @@ const ManageQuiz = () => {
                                 </div>
                                 <button
                                     onClick={() => handleAddNewQuiz()}
-                                    className="btn btn-success float-end">Save</button>
+                                    className="btn btn-success ">Save</button>
                             </fieldset>
+                        </div>
+                        <div className="table-quiz">
+                            <h5 className="mt-4">List quizzes</h5>
+                            <TableQuiz
+                                listQuiz={dataQuiz}
+                                onClickDeleteQuiz={handleDelete}
+                                onClickUpdateQuiz={handleUpdate}
+                            />
+                            <ModalDeleteQuiz
+                                show={showModalDelete}
+                                onClickClose={handleCloseDelete}
+                                inforDeleteQuiz={inforDeleteQuiz}
+                                fetchAllQuiz={fetchAllQuiz}
+                            />
+                            <ModalUpdateQuiz
+                                show={showModalUpdate}
+                                onClickClose={handleCloseUpdate}
+                                inforUpdateQuiz={inforUpdateQuiz}
+                                fetchAllQuiz={fetchAllQuiz}
+                                resetDataUpdate={handleResetDataUpdate}
+                            />
+
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            <h5 className="mt-4">List quizzes</h5>
-            <div className="table-quiz">
-                <TableQuiz
-                    listQuiz={dataQuiz}
-                    onClickDeleteQuiz={handleDelete}
-                    onClickUpdateQuiz={handleUpdate}
-                />
-                <ModalDeleteQuiz
-                    show={showModalDelete}
-                    onClickClose={handleCloseDelete}
-                    inforDeleteQuiz={inforDeleteQuiz}
-                    fetchAllQuiz={fetchAllQuiz}
-                />
-                <ModalUpdateQuiz
-                    show={showModalUpdate}
-                    onClickClose={handleCloseUpdate}
-                    inforUpdateQuiz={inforUpdateQuiz}
-                    fetchAllQuiz={fetchAllQuiz}
-                    resetDataUpdate={handleResetDataUpdate}
-                />
-
-            </div>
-
+            <QuizQA listQuizzes={listQuizzes} />
+            <AssignQuiz
+                listQuizzes={listQuizzes}
+                listUsers={listUsers}
+            />
         </div>
 
 

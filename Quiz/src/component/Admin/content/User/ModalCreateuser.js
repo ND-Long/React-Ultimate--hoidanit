@@ -99,7 +99,6 @@ function ModalCreateuser(props) {
         //call apis
         if (isValidateEmail == true && isValidatePassword == true && isValidateImage == true) {
             var data = await postCreateUser(email, password, username, role, image)
-            console.log(">>>Check data create:", data)
             if (data && data.EC == 1) {
                 toast.error(data.EM)
             } else if (data && data.EC == 0) {

@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Admin from './component/Admin/Admin';
-import User from './component/User/User';
 import Home from './component/Home/Home';
 import DashBoard from './component/Admin/content/DashBoard';
 import ManageUser from './component/Admin/content/User/ManageUser';

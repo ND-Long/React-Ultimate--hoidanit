@@ -19,7 +19,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                 image={sidebarBg}
                 collapsed={collapsed}
                 toggled={toggled}
-                breakPoint="md"
+                breakPoint="md-col"
                 onToggle={handleToggleSidebar}
             >
                 <SidebarHeader className='backToHome'>
@@ -80,6 +80,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                             padding: '20px 24px',
                         }}
                     >
+
                         <a
                             href="https://github.com/ND-Long/React-Ultimate--hoidanit/tree/prod/Quiz"
                             target="_blank"
@@ -87,7 +88,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                             rel="noopener noreferrer"
                         >
                             <FaGithub />
-                            <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            <span className='mx-3' style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                                 Source
                             </span>
                         </a>

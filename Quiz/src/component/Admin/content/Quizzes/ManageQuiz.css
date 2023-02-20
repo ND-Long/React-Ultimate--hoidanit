@@ -32,3 +32,7 @@
 .table tr {
     vertical-align: middle;
 }
+
+.assign-quiz {
+    display: flex;
+}

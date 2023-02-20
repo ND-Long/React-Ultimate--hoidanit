@@ -69,7 +69,18 @@
     font-size: 17px;
 }
 
-/* .arr-quiz {
-    display: grid;
-    grid-template-columns: AUTO AUTO AUTO;
-} */
+.quiz-card {
+    width: 18rem;
+    /* height: 100px; */
+
+}
+
+
+.arr-quiz {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 90vh !important;
+    /* background-color: red; */
+    overflow: scroll;
+}

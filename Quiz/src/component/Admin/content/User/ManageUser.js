@@ -1,7 +1,7 @@
 import ModalCreateuser from "./ModalCreateuser"
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from "react"
-import { getAllUser, paginationUser } from "../../../services/apiService"
+import { paginationUser } from "../../../services/apiService"
 import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";

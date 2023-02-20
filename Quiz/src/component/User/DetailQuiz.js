@@ -140,7 +140,7 @@ const DetailtQuiz = (props) => {
             <div className="question-container">
                 <div className="question-body">
                     <div className="question-header">
-                        Quiz{params.id}: {location?.state}
+                        Quiz {params.id}: {location?.state}
                     </div>
 
                     <hr />

@@ -101,11 +101,18 @@ const postAnswer = (question_id, description, correct_answer) => {
     return axios.post(`/api/v1/answer`, dataPostAnswer)
 }
 
+const postQuizToUser = (quizId, userId) => {
+    const assignQuiz = new FormData()
+    assignQuiz.append("quizId", quizId)
+    assignQuiz.append("userId", userId)
+    return axios.post(`/api/v1/quiz-assign-to-user`, assignQuiz)
+}
+
 export {
     postCreateUser, getAllUser, putUpdateUser,
     deleteUser, paginationUser, postLogin,
     postSignup, getQuizByUser, getDataQuizById,
     postSubmitQuiz, postNewQuiz, getAllQuiz,
     deleteQuiz, putUpdateQuiz, postQuestion,
-    postAnswer
+    postAnswer, postQuizToUser
 } 
