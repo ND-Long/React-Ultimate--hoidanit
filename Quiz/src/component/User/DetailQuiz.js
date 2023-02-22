@@ -6,8 +6,10 @@ import "./DetailQuiz.css"
 import { useLocation } from "react-router-dom";
 import Question from "./Question";
 import ModalSubmitQuiz from "./ModalSubmitQuiz";
-import { Toast } from "bootstrap";
 import { toast } from "react-toastify";
+import RightConent from "./RightContent";
+
+
 const DetailtQuiz = (props) => {
     const [quizDatas, setQuizDatas] = useState([])
     const [index, setIndex] = useState(0)
@@ -15,6 +17,7 @@ const DetailtQuiz = (props) => {
     const [clickNext, setClickNext] = useState(false)
     const [showModalSubmit, setShowModalSubmit] = useState(false)
     const [dataSubmit, setDataSubmit] = useState({})
+
     const questions = []
     const params = useParams()
     const location = useLocation()
@@ -135,6 +138,7 @@ const DetailtQuiz = (props) => {
         }
     }
 
+
     return (
         <>
             <div className="question-container">
@@ -176,10 +180,13 @@ const DetailtQuiz = (props) => {
                     </div>
                 </div>
                 <div className="countdown">
-                    countdown
+                    <RightConent
+                        quizDatas={quizDatas}
+                    />
                 </div>
 
             </div >
+
             <ModalSubmitQuiz
                 show={showModalSubmit}
                 setShow={setShowModalSubmit}

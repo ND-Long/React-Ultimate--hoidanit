@@ -1,7 +1,11 @@
-import { queries } from "@testing-library/react"
+import Lightbox from "react-awesome-lightbox";
 import _ from "lodash"
+import { useState } from "react"
+import "./DetailQuiz.css"
 const Question = (props) => {
     const { dataQuiz, questionId, onClickCheckbox } = props
+    const [isPreview, setIsPreview] = useState(false)
+    console.log("data", dataQuiz)
 
     //check data empty
     if (_.isEmpty(dataQuiz)) {
@@ -9,15 +13,18 @@ const Question = (props) => {
     }
 
     const handleCheckBox = (event, answerId, questionId) => {
-        // console.log("data props:", dataQuiz.answers)
         onClickCheckbox(answerId, questionId)
     }
+
+
     return (
         <>
             <div className="question-image">
                 {
                     dataQuiz.image ?
-                        <img src={`data:image/png;base64, ${dataQuiz.image}`} />
+                        <img src={`data:image/png;base64, ${dataQuiz.image}`}
+                            onClick={() => setIsPreview(true)}
+                        />
                         : <div className="no-image"></div>
                 }
             </div>
@@ -39,6 +46,11 @@ const Question = (props) => {
                     ))
                 }
             </div>
+            {
+                isPreview &&
+                <Lightbox image={`data:image/png;base64, ${dataQuiz.image}`} onClose={() => setIsPreview(false)} />
+
+            }
         </>
     )
 }

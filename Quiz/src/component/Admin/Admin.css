@@ -6,6 +6,7 @@
 .content-admin {
     width: 100%;
     padding: 5px;
+    height: calc(100vh - 33px) !important;
 }
 
 .sidebar {
@@ -74,9 +75,4 @@
 
 .modal-creat-user {
     width: 100% !important;
-}
-
-.content-admin-in {
-    overflow: scroll;
-    height: 100vh;
 }

@@ -43,6 +43,7 @@
 .question-image img {
     height: 150px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .no-image {
@@ -80,7 +81,37 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: 90vh !important;
+    height: calc(100vh - 100px) !important;
     /* background-color: red; */
-    overflow: scroll;
+    /* overflow: scroll; */
+}
+
+.countdown-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.countdown-header {
+    border-bottom: 1px dashed;
+    padding: 18px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.countdown-question {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(102, 102, 102);
+    cursor: pointer;
+}
+
+.countdown-question:hover {
+    color: red;
 }
