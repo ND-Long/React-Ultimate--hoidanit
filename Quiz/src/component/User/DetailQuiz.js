@@ -7,7 +7,9 @@ import { useLocation } from "react-router-dom";
 import Question from "./Question";
 import ModalSubmitQuiz from "./ModalSubmitQuiz";
 import { toast } from "react-toastify";
-import RightConent from "./RightContent";
+import RightContent from "./Content/RightContent";
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 
 const DetailtQuiz = (props) => {
@@ -17,8 +19,6 @@ const DetailtQuiz = (props) => {
     const [clickNext, setClickNext] = useState(false)
     const [showModalSubmit, setShowModalSubmit] = useState(false)
     const [dataSubmit, setDataSubmit] = useState({})
-
-    const questions = []
     const params = useParams()
     const location = useLocation()
     useEffect(() => {
@@ -139,60 +139,69 @@ const DetailtQuiz = (props) => {
     }
 
 
+
     return (
-        <>
-            <div className="question-container">
-                <div className="question-body">
-                    <div className="question-header">
-                        Quiz {params.id}: {location?.state}
+        <PerfectScrollbar>
+            <>
+
+                <div className="question-container">
+                    <div className="question-body">
+                        <div className="question-header">
+                            Quiz {params.id}: {location?.state}
+                        </div>
+
+                        <hr />
+
+                        <div className="question-content">
+                            <Question
+                                dataQuiz={quizDatas && quizDatas.length > 0 ?
+                                    quizDatas[index]
+                                    :
+                                    []
+                                }
+                                questionId={index}
+                                answers={quizDatas[index]}
+                                onClickCheckbox={handleCheckBox}
+                            />
+
+                        </div>
+                        <div className="footer">
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => handlePrev()}
+                                disabled={clickPrev}
+                            >Prev</button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => handleNext()}
+                                disabled={clickNext}
+                            >Next</button>
+                            <button
+                                className="btn btn-warning"
+                                onClick={() => handleFinish()}
+                            >Finish</button>
+                        </div>
+
+
                     </div>
-
-                    <hr />
-
-                    <div className="question-content">
-                        <Question
-                            dataQuiz={quizDatas && quizDatas.length > 0 ?
-                                quizDatas[index]
-                                :
-                                []
-                            }
-                            questionId={index}
-                            answers={quizDatas[index]}
-                            onClickCheckbox={handleCheckBox}
+                    <div className="right-content">
+                        <RightContent
+                            quizDatas={quizDatas}
+                            timeOutSubmit={handleFinish}
                         />
                     </div>
 
-                    <div className="footer">
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => handlePrev()}
-                            disabled={clickPrev}
-                        >Prev</button>
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => handleNext()}
-                            disabled={clickNext}
-                        >Next</button>
-                        <button
-                            className="btn btn-warning"
-                            onClick={() => handleFinish()}
-                        >Finish</button>
-                    </div>
-                </div>
-                <div className="countdown">
-                    <RightConent
-                        quizDatas={quizDatas}
-                    />
-                </div>
+                </div >
 
-            </div >
 
-            <ModalSubmitQuiz
-                show={showModalSubmit}
-                setShow={setShowModalSubmit}
-                dataSubmitQuiz={dataSubmit}
-            />
-        </>
+
+                <ModalSubmitQuiz
+                    show={showModalSubmit}
+                    setShow={setShowModalSubmit}
+                    dataSubmitQuiz={dataSubmit}
+                />
+            </>
+        </PerfectScrollbar>
     )
 }
 

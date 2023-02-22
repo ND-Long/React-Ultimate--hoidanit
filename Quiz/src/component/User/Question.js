@@ -5,7 +5,7 @@ import "./DetailQuiz.css"
 const Question = (props) => {
     const { dataQuiz, questionId, onClickCheckbox } = props
     const [isPreview, setIsPreview] = useState(false)
-    console.log("data", dataQuiz)
+
 
     //check data empty
     if (_.isEmpty(dataQuiz)) {
