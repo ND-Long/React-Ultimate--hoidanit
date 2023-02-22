@@ -10,6 +10,8 @@ const AssignQuiz = (props) => {
     const { listQuizzes, listUsers } = props
     const [selectedQuiz, setSelectedQuiz] = useState()
     const [selectedUser, setSelectedUser] = useState()
+    const [isWaitingRes, setIsWaitingRes] = useState(false)
+
 
     const handleAssignQuiz = async () => {
         if (selectedQuiz === undefined || selectedUser === undefined) {
@@ -18,11 +20,13 @@ const AssignQuiz = (props) => {
             console.log(selectedUser)
             return
         }
-
+        setIsWaitingRes(true)
         const res = await postQuizToUser(+selectedQuiz.value, +selectedUser.value)
         if (res && res.DT && res.EC === 0) {
+            setIsWaitingRes(false)
             toast.success(res.EM)
         } else {
+            setIsWaitingRes(false)
             toast.error(res.EM)
         }
     }
@@ -36,6 +40,7 @@ const AssignQuiz = (props) => {
                         <div className='select-question col-md-6 '>
                             <label>Select Quiz:</label>
                             <Select
+                                isDisabled={isWaitingRes}
                                 options={listQuizzes}
                                 onChange={(event) => setSelectedQuiz(event)}
                             />
@@ -43,6 +48,7 @@ const AssignQuiz = (props) => {
                         <div className='select-question col-md-6 mx-2'>
                             <label>Select User:</label>
                             <Select
+                                isDisabled={isWaitingRes}
                                 options={listUsers}
                                 onChange={(event) => setSelectedUser(event)}
                             />
@@ -50,7 +56,7 @@ const AssignQuiz = (props) => {
                     </div>
 
                     <button className="btn btn-success"
-                        disabled={selectedQuiz === undefined || selectedUser === undefined}
+                        disabled={isWaitingRes || selectedQuiz === undefined || selectedUser === undefined}
                         onClick={() => handleAssignQuiz()}
                     >Save</button>
                 </Accordion.Body>

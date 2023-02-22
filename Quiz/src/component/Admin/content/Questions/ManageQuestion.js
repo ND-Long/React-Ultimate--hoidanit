@@ -339,6 +339,7 @@ const ManageQuestion = () => {
                                             <div className="form-floating mt-3 col-md-6 ">
                                                 <input type="text" className="form-control" placeholder="Answer"
                                                     onChange={(event) => handleChangeAnswer("ANSWER", question.id, answer.id, event.target.value)}
+                                                    value={answer.description}
 
                                                 />
                                                 <label>Answer {index + 1}</label>
@@ -359,7 +360,7 @@ const ManageQuestion = () => {
                                     )
                                 })
                             }
-
+                            <hr className="mt-5" />
                         </div>
                     )
                 })

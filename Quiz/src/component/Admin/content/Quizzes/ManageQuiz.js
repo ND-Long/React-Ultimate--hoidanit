@@ -206,7 +206,10 @@ const ManageQuiz = () => {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            <QuizQA listQuizzes={listQuizzes} />
+            <QuizQA
+                listQuizzes={listQuizzes}
+
+            />
             <AssignQuiz
                 listQuizzes={listQuizzes}
                 listUsers={listUsers}
