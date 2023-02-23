@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/React-Ultimate--hoidanit/static/css/main.bc5dcd3d.css",
+    "main.js": "/React-Ultimate--hoidanit/static/js/main.ae984f53.js",
+    "static/js/787.174a0e6e.chunk.js": "/React-Ultimate--hoidanit/static/js/787.174a0e6e.chunk.js",
+    "static/media/dribbble_1.gif": "/React-Ultimate--hoidanit/static/media/dribbble_1.181c5a6430bcb77324b1.gif",
+    "static/media/video-homePage.mp4": "/React-Ultimate--hoidanit/static/media/video-homePage.64c3c874560db383e773.mp4",
+    "static/media/backGroundSky.jpg": "/React-Ultimate--hoidanit/static/media/backGroundSky.7c3c7285caf663d43b29.jpg",
+    "index.html": "/React-Ultimate--hoidanit/index.html",
+    "main.bc5dcd3d.css.map": "/React-Ultimate--hoidanit/static/css/main.bc5dcd3d.css.map",
+    "main.ae984f53.js.map": "/React-Ultimate--hoidanit/static/js/main.ae984f53.js.map",
+    "787.174a0e6e.chunk.js.map": "/React-Ultimate--hoidanit/static/js/787.174a0e6e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bc5dcd3d.css",
+    "static/js/main.ae984f53.js"
+  ]
+}
