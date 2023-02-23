@@ -3,9 +3,11 @@ import { useState } from "react"
 
 const CountDown = (props) => {
     const { timeOutSubmit } = props
-    const [count, setCount] = useState(3)
+    const [count, setCount] = useState(300)
     const [timeCount, setTimeCount] = useState("00:00")
     const [isOutTime, setIsOutTime] = useState(false)
+
+
 
     useEffect(() => {
 

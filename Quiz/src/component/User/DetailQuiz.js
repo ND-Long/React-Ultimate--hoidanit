@@ -188,6 +188,9 @@ const DetailtQuiz = (props) => {
                         <RightContent
                             quizDatas={quizDatas}
                             timeOutSubmit={handleFinish}
+
+                            //index when click question in RightContent
+                            ClickQuestion={setIndex}
                         />
                     </div>
 

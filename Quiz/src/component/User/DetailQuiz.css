@@ -10,6 +10,7 @@
     border-radius: 10px;
     padding: 10px;
     width: 70%;
+    position: relative;
 }
 
 .right-content {
@@ -23,7 +24,10 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-top: 50px;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
 }
 
 .question-header {
@@ -92,6 +96,7 @@
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
+    block-size: fit-content;
 }
 
 .right-content-header {
@@ -111,6 +116,14 @@
     align-items: center;
     border: 1px solid rgb(102, 102, 102);
     cursor: pointer;
+}
+
+.right-content-question.selected {
+    background-color: #bcbcbc;
+}
+
+.right-content-question.clicked {
+    color: red;
 }
 
 .right-content-question:hover {
