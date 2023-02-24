@@ -22,13 +22,17 @@ const Question = (props) => {
             <div className="question-image">
                 {
                     dataQuiz.image ?
-                        <img src={`data:image/png;base64, ${dataQuiz.image}`}
-                            onClick={() => setIsPreview(true)}
-                        />
+                        <div>
+                            <img src={`data:image/png;base64, ${dataQuiz.image}`}
+                                onClick={() => setIsPreview(true)}
+                            />
+                        </div>
                         : <div className="no-image"></div>
                 }
             </div>
-            <div className="question-question">Question {questionId + 1}: {dataQuiz.questionDescription} ?</div>
+            <div className="question-question">
+                Question {questionId + 1}: {dataQuiz.questionDescription} ?
+            </div>
             <div className="question-answer">
                 {
                     dataQuiz.answers.map((a, index) => (

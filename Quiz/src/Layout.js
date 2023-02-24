@@ -13,6 +13,7 @@ import ListQuiz from './component/User/ListQuiz';
 import DetailtQuiz from './component/User/DetailQuiz';
 import { useNavigate } from 'react-router-dom';
 import './Layout.css'
+import PrivateRoute from './component/Admin/content/PrivateRoute';
 
 const NotFound = () => {
     const navigate = useNavigate()
@@ -39,15 +40,18 @@ const Layout = () => {
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<Home />} />
-                    <Route path="/user" element={<ListQuiz />} />
+                    <Route path="/user" element={<PrivateRoute><ListQuiz /></PrivateRoute>} />
                 </Route>
 
-                <Route path="/admin" element={<Admin />}>
+
+                <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>}>
                     <Route index element={<DashBoard />} />
+
                     <Route path="/admin/manage-user" element={<ManageUser />} />
                     <Route path="/admin/manage-quiz" element={<ManageQuiz />} />
                     <Route path="/admin/manage-question" element={<ManageQuestion />} />
                 </Route>
+
 
                 <Route path="/login" element={<Login />}>
 
@@ -56,7 +60,7 @@ const Layout = () => {
                 <Route path="/signup" element={<Signup />} >
 
                 </Route>
-                <Route path="/quiz/:id" element={<DetailtQuiz />} >
+                <Route path="/quiz/:id" element={<PrivateRoute><DetailtQuiz /></PrivateRoute>} >
 
                 </Route>
 

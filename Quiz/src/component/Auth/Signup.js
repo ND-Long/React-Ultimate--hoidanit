@@ -53,7 +53,7 @@ const Signup = () => {
                 toast.success(dataSignup.EM)
                 setIsDelaySignup(false)
                 NProgress.done();
-                navigate("/")
+                navigate("/login")
             }
         }
 

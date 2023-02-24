@@ -1,13 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CountDown from "./CountDown"
 
 const RightContent = (props) => {
-    const { quizDatas, timeOutSubmit, ClickQuestion } = props
+    const { quizDatas, timeOutSubmit, ClickQuestion, questionId } = props
     const [indexClick, setIndexClick] = useState()
     const handleClickQuestion = (event) => {
         ClickQuestion(event)
         setIndexClick(event)
     }
+
+    useEffect(() => {
+        handleClickQuestion(questionId)
+    }, [questionId])
 
     const handleTimeOutSubmit = () => {
         timeOutSubmit()
