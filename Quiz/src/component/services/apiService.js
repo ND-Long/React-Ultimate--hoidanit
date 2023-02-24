@@ -94,11 +94,7 @@ const postQuestion = (quiz_id, description, questionImage) => {
 }
 
 const postAnswer = (question_id, description, correct_answer) => {
-    const dataPostAnswer = new FormData();
-    dataPostAnswer.append("question_id", question_id)
-    dataPostAnswer.append("description", description)
-    dataPostAnswer.append("correct_answer", correct_answer)
-    return axios.post(`/api/v1/answer`, dataPostAnswer)
+    return axios.post(`/api/v1/answer`, { question_id, description, correct_answer })
 }
 
 const postQuizToUser = (quizId, userId) => {
@@ -116,6 +112,10 @@ const postUpsertQuizQA = (data) => {
     return axios.post(`/api/v1/quiz-upsert-qa`, { ...data })
 }
 
+const postLogOut = (email, refresh_token) => {
+    return axios.post(`/api/v1/logout`, { email, refresh_token })
+}
+
 export {
     postCreateUser, getAllUser, putUpdateUser,
     deleteUser, paginationUser, postLogin,
@@ -123,5 +123,5 @@ export {
     postSubmitQuiz, postNewQuiz, getAllQuiz,
     deleteQuiz, putUpdateQuiz, postQuestion,
     postAnswer, postQuizToUser, getQuizWithQA,
-    postUpsertQuizQA
+    postUpsertQuizQA, postLogOut
 } 

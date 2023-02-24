@@ -7,6 +7,8 @@ import './Header.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/action/userAction";
+import { postLogOut } from '../services/apiService';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
@@ -20,9 +22,14 @@ const Header = () => {
         navigate("/signup")
     }
 
-    const handleLogout = () => {
-        dispatch(doLogout())
-        navigate("/login")
+    const handleLogout = async () => {
+        const resLogout = await postLogOut(user.email, user.refresh_token)
+        if (resLogout && resLogout.EC === 0) {
+            dispatch(doLogout())
+            navigate("/login")
+        } else {
+            toast.error(resLogout.EM)
+        }
     }
 
     return (
@@ -54,8 +61,8 @@ const Header = () => {
                             </>
                             :
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => handleLogout()}>Log Out</NavDropdown.Item>
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => handleLogout()}>Log Out</NavDropdown.Item>
                             </NavDropdown>
                         }
                     </Nav>
