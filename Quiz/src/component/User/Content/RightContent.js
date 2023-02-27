@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import CountDown from "./CountDown"
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const RightContent = (props) => {
-    const { quizDatas, timeOutSubmit, ClickQuestion, questionId } = props
+    const { quizDatas, timeOutSubmit, ClickQuestion, questionId, stopCount } = props
     const [indexClick, setIndexClick] = useState()
     const handleClickQuestion = (event) => {
         ClickQuestion(event)
@@ -44,22 +45,25 @@ const RightContent = (props) => {
                 <b>
                     <CountDown
                         timeOutSubmit={handleTimeOutSubmit}
+                        stopCount={stopCount}
                     />
                 </b>
             </div>
-            <div className="right-content-content mt-3">
-                {
-                    quizDatas.map((item, index) => {
-                        return (
-                            <div key={`question-${item.questionId}`}>
-                                <div className={getClassName(item, index)}
-                                    onClick={() => handleClickQuestion(index)}
-                                >{index + 1}</div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            <PerfectScrollbar>
+                <div className="right-content-content mt-3">
+                    {
+                        quizDatas.map((item, index) => {
+                            return (
+                                <div key={`question-${item.questionId}`}>
+                                    <div className={getClassName(item, index)}
+                                        onClick={() => handleClickQuestion(index)}
+                                    >{index + 1}</div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </PerfectScrollbar>
         </div >
     )
 }

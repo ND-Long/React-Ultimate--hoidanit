@@ -38,11 +38,11 @@ const paginationUser = (page, limit) => {
 }
 
 const postLogin = (email, password, delay) => {
-    return axios.post(`/api/v1/login`, { email, password, delay: 1000 })
+    return axios.post(`/api/v1/login`, { email, password, delay: 2000 })
 }
 
 const postSignup = (email, username, password, delay) => {
-    return axios.post(`/api/v1/participant`, { email, username, password, delay: 1000 })
+    return axios.post(`/api/v1/participant`, { email, username, password, delay: 2000 })
 }
 
 const getQuizByUser = () => {
@@ -116,6 +116,18 @@ const postLogOut = (email, refresh_token) => {
     return axios.post(`/api/v1/logout`, { email, refresh_token })
 }
 
+const getDashboardOveview = () => {
+    return axios.get(`/api/v1/overview`)
+}
+
+const postChangePassword = (current_password, new_password) => {
+    return axios.post(`/api/v1/change-password`, { current_password, new_password })
+}
+
+const getHistoryQuiz = () => {
+    return axios.get("/api/v1/history")
+}
+
 export {
     postCreateUser, getAllUser, putUpdateUser,
     deleteUser, paginationUser, postLogin,
@@ -123,5 +135,7 @@ export {
     postSubmitQuiz, postNewQuiz, getAllQuiz,
     deleteQuiz, putUpdateQuiz, postQuestion,
     postAnswer, postQuizToUser, getQuizWithQA,
-    postUpsertQuizQA, postLogOut
+    postUpsertQuizQA, postLogOut, getDashboardOveview,
+    postChangePassword, getHistoryQuiz
+
 } 

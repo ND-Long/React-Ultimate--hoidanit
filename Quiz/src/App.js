@@ -11,7 +11,7 @@ const App = () => {
   return (
     <div className="app-container">
       {/* Header */}
-      <div className='header-container'>
+      <div className='header-container container'>
         <Header />
       </div>
       <div className='content-container'>

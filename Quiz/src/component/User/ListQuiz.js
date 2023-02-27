@@ -31,18 +31,24 @@ const ListQuiz = (props) => {
     return (
         <PerfectScrollbar>
             <div className="arr-quiz container" >
-                {arrQuiz.map((quiz, index) => {
-                    return (
-                        <div key={index + "quiz"} className="quiz-card card mb-5">
-                            <img className="card-img-top" src={`data:image/jpeg;base64, ${quiz.image}`} />
-                            <div className="card-body">
-                                <h5 className="card-title">{quiz.name}</h5>
-                                <p className="card-text">{quiz.description}</p>
-                                <a className="btn btn-primary" onClick={() => { navigate(`/quiz/${quiz.id}`, { state: quiz.description }) }}>Start now</a>
-                            </div>
-                        </div>
-                    )
-                })}
+                {
+                    arrQuiz ?
+                        arrQuiz.map((quiz, index) => {
+                            return (
+                                <div key={index + "quiz"} className="quiz-card card mb-5">
+                                    <img className="card-img-top" src={`data:image/jpeg;base64, ${quiz.image}`} />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{quiz.name}</h5>
+                                        <p className="card-text">{quiz.description}</p>
+                                        <a className="btn btn-primary" onClick={() => { navigate(`/quiz/${quiz.id}`, { state: quiz.description }) }}>Start now</a>
+                                    </div>
+                                </div>
+                            )
+                        })
+                        :
+                        <div>There are no quizzes, please add more...</div>
+
+                }
             </div >
         </PerfectScrollbar>
     )

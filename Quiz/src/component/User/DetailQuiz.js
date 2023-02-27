@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import RightContent from "./Content/RightContent";
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { FaBars } from 'react-icons/fa';
+import HeaderQuiz from "./HeaderQuiz";
 
 
 const DetailtQuiz = (props) => {
@@ -19,8 +21,15 @@ const DetailtQuiz = (props) => {
     const [clickNext, setClickNext] = useState(false)
     const [showModalSubmit, setShowModalSubmit] = useState(false)
     const [dataSubmit, setDataSubmit] = useState({})
+    const [dataResult, setDataResult] = useState([])
     const params = useParams()
     const location = useLocation()
+    const [finishedQuiz, setFinishedQuiz] = useState(false)
+    const [stopCount, setStopCount] = useState(false)
+    const [showAnswer, setShowAnswer] = useState(false)
+
+
+
     useEffect(() => {
         getQuiz()
     }, [params])
@@ -89,6 +98,8 @@ const DetailtQuiz = (props) => {
     }
 
     const handleFinish = async () => {
+        setFinishedQuiz(true)
+        setStopCount(true)
         // {
         //     "quizId": 1,
         //     "answers": [
@@ -125,8 +136,10 @@ const DetailtQuiz = (props) => {
         payload.answers = answers
         var dataSubmitQuiz = await postSubmitQuiz(payload)
 
-        if (dataSubmitQuiz && dataSubmitQuiz.EC == 0) {
 
+
+        if (dataSubmitQuiz && dataSubmitQuiz.EC == 0) {
+            setDataResult(dataSubmitQuiz.DT.quizData)
             setDataSubmit({
                 countCorrect: dataSubmitQuiz.DT.countCorrect,
                 countTotal: dataSubmitQuiz.DT.countTotal,
@@ -143,8 +156,9 @@ const DetailtQuiz = (props) => {
     return (
         <PerfectScrollbar>
             <>
-
+                <HeaderQuiz />
                 <div className="question-container">
+
                     <div className="question-body">
                         <div className="question-header">
                             Quiz {params.id}: {location?.state}
@@ -162,6 +176,9 @@ const DetailtQuiz = (props) => {
                                 questionId={index}
                                 answers={quizDatas[index]}
                                 onClickCheckbox={handleCheckBox}
+                                finishedQuiz={finishedQuiz}
+                                dataResult={dataResult[index]}
+                                showAnswer={showAnswer}
                             />
 
                         </div>
@@ -179,6 +196,7 @@ const DetailtQuiz = (props) => {
                             <button
                                 className="btn btn-warning"
                                 onClick={() => handleFinish()}
+                                disabled={finishedQuiz}
                             >Finish</button>
                         </div>
 
@@ -191,8 +209,10 @@ const DetailtQuiz = (props) => {
                             questionId={index}
                             //index when click question in RightContent
                             ClickQuestion={setIndex}
+                            stopCount={stopCount}
                         />
                     </div>
+
 
                 </div >
 
@@ -202,6 +222,7 @@ const DetailtQuiz = (props) => {
                     show={showModalSubmit}
                     setShow={setShowModalSubmit}
                     dataSubmitQuiz={dataSubmit}
+                    setShowAnswer={setShowAnswer}
                 />
             </>
         </PerfectScrollbar>

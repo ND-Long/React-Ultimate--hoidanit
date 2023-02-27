@@ -11,16 +11,19 @@ import {
     SidebarFooter,
     SidebarContent,
 } from 'react-pro-sidebar';
+import { useSSR } from 'react-i18next';
+import { useState } from 'react';
 
-const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
+const Sidebar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
+
     return (
         <div className='sidebar'>
             <ProSidebar
                 image={sidebarBg}
                 collapsed={collapsed}
                 toggled={toggled}
-                breakPoint="md-col"
-                onToggle={handleToggleSidebar}
+                breakPoint="md"
+                onToggle={false}
             >
                 <SidebarHeader className='backToHome'>
                     <div
@@ -43,9 +46,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                 <SidebarContent>
                     <Menu iconShape="circle">
                         <MenuItem
-                            icon={<FaTachometerAlt />}
-                            suffix={<span className="badge red">New</span>}
-                        >
+                            icon={<FaTachometerAlt />}                        >
                             Dashboard
                             <Link to="/admin" />
                         </MenuItem>
@@ -92,6 +93,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                                 Source
                             </span>
                         </a>
+
                     </div>
                 </SidebarFooter>
             </ProSidebar>

@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 const Home = (props) => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const navigate = useNavigate()
+
+    // document.querySelector(".container-home").onClick = alert("ok")
     return (
         <div className="container-home">
             <video autoPlay muted loop className='video-home'>
@@ -21,8 +23,6 @@ const Home = (props) => {
                         <button onClick={() => { navigate("/login") }}>Get started - it's free</button> :
                         <button onClick={() => { navigate("/user") }}>Start now</button>
                 }
-
-
             </div>
         </div >
     )

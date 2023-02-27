@@ -13,19 +13,21 @@ NProgress.configure({
 
 const instance = axios.create({
     baseURL: "http://localhost:8081/",
+    // baseURL: " https://a920-222-252-56-200.ap.ngrok.io/",
 
 });
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
+    NProgress.start();
     // Do something before request is sent
     const access_token = store?.getState()?.user?.account?.access_token
     config.headers.common = { 'Authorization': `Bearer ${access_token} ` }
 
-    NProgress.start();
+
     return config;
 }, function (error) {
-    NProgress.start();
+    NProgress.done();
     // Do something with request error
     return Promise.reject(error);
 });

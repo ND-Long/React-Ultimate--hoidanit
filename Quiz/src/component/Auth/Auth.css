@@ -88,3 +88,17 @@ label {
         transform: rotate(360deg);
     }
 }
+
+@media only screen and (max-width: 680px) {
+    .login-signup .title {
+        width: 100%;
+    }
+
+    .login-signup .wellcome {
+        width: 100%;
+    }
+
+    .login-signup .content {
+        width: 70%;
+    }
+}

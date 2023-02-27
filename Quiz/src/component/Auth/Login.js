@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 import { ImSpinner } from 'react-icons/im';
 import NProgress from "nprogress"
+import Languages from "../Header/Languages";
 
 
 const Login = () => {
@@ -42,9 +43,12 @@ const Login = () => {
         //call apis
 
         if (isValidateEmail == true) {
-            setIsDelayLogin(true)
+
             const dataLogin = await postLogin(email, password)
-            if (dataLogin.EC == 0) {
+            if (dataLogin) {
+                setIsDelayLogin(true)
+            }
+            if (dataLogin && dataLogin.EC == 0) {
                 toast.success(dataLogin.EM)
                 dispatch(doLogin(dataLogin))
                 setIsDelayLogin(false)
@@ -52,7 +56,11 @@ const Login = () => {
                 navigate('/')
             }
             if (dataLogin.EC !== 0) {
+                setIsDelayLogin(false)
                 toast.error(dataLogin.EM)
+            }
+            if (!dataLogin) {
+                setIsDelayLogin(false)
             }
         }
     }
@@ -63,7 +71,7 @@ const Login = () => {
 
 
     return (
-        < div>
+        < div className="login-signup">
             <div className="header">
                 <div className="header-content">
                     <span
@@ -75,6 +83,7 @@ const Login = () => {
                     >
                         Signup
                     </button>
+                    <Languages />
                 </div>
             </div>
             <div className="title col-4 mx-auto">

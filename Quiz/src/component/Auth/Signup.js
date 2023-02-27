@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { ImSpinner } from 'react-icons/im';
 import NProgress from "nprogress"
+import Languages from "../Header/Languages";
 
 const Signup = () => {
     const [email, setEmail] = useState("")
@@ -65,7 +66,7 @@ const Signup = () => {
 
 
     return (
-        < div>
+        < div className="login-signup">
             <div className="header">
                 <div className="header-content">
                     <span >Already have an account?</span>
@@ -75,6 +76,7 @@ const Signup = () => {
                     >
                         Login
                     </button>
+                    <Languages />
                 </div>
             </div>
             <div className="title col-4 mx-auto">
