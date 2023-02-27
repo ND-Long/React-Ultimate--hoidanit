@@ -12,8 +12,8 @@ NProgress.configure({
 })
 
 const instance = axios.create({
-    baseURL: "http://localhost:8081/",
-    // baseURL: " https://a920-222-252-56-200.ap.ngrok.io/",
+//     baseURL: "http://localhost:8081/",
+     baseURL: "https://cf44-103-11-199-107.ap.ngrok.io/",
 
 });
 
