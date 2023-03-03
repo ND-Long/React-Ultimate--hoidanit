@@ -9,6 +9,7 @@
 <p align="center">
   <a href="https://github.com/alsiam"><img src="https://readme-typing-svg.herokuapp.com/?lines=Self%20Taught%20Programmer;Front%20End%20Developer;1.5%2B%20years%20of%20coding%20experience;Always%20learning%20new%20things&center=true&width=380&height=45"></a>
 </p>
+![image](https://user-images.githubusercontent.com/93753007/222724120-f0e17fca-84aa-427f-a8df-bbc9714c8654.png)
 
  -->
 
