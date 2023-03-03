@@ -6,6 +6,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  background: linear-gradient(to top, #ffeede, #ffffff);
+
+  height: 100vh;
 }
 
 .app-container .header-container .navbar {

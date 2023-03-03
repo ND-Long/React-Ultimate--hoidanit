@@ -1,7 +1,7 @@
 import 'react-pro-sidebar/dist/css/styles.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FaTachometerAlt, FaGem, FaGithub, FaFacebook, FaRegLaughWink, FaHeart } from 'react-icons/fa';
-import sidebarBg from "../../assets/bgSideBarAdmin.jpeg"
+import sidebarBg from "../../assets/backGroundSky.jpg"
 import {
     ProSidebar,
     Menu,
@@ -11,8 +11,11 @@ import {
     SidebarFooter,
     SidebarContent,
 } from 'react-pro-sidebar';
+import { useSSR } from 'react-i18next';
+import { useState } from 'react';
 
-const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
+const Sidebar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
+
     return (
         <div className='sidebar'>
             <ProSidebar
@@ -20,7 +23,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                 collapsed={collapsed}
                 toggled={toggled}
                 breakPoint="md"
-                onToggle={handleToggleSidebar}
+                onToggle={false}
             >
                 <SidebarHeader className='backToHome'>
                     <div
@@ -43,9 +46,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                 <SidebarContent>
                     <Menu iconShape="circle">
                         <MenuItem
-                            icon={<FaTachometerAlt />}
-                            suffix={<span className="badge red">New</span>}
-                        >
+                            icon={<FaTachometerAlt />}                        >
                             Dashboard
                             <Link to="/admin" />
                         </MenuItem>
@@ -80,17 +81,19 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                             padding: '20px 24px',
                         }}
                     >
+
                         <a
-                            href="https://google.com/"
+                            href="https://github.com/ND-Long/React-Ultimate--hoidanit/tree/prod/Quiz"
                             target="_blank"
                             className="sidebar-btn"
                             rel="noopener noreferrer"
                         >
-                            <FaFacebook />
-                            <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                                Google
+                            <FaGithub />
+                            <span className='mx-3' style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                                Source
                             </span>
                         </a>
+
                     </div>
                 </SidebarFooter>
             </ProSidebar>

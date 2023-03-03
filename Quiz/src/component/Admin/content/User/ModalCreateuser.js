@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "./Content.css"
-import { postCreateUser } from '../../services/apiService';
+import "../Content.css"
+import { postCreateUser } from '../../../services/apiService';
+import { async } from "q"
 
 function ModalCreateuser(props) {
-    const { show, onClickClose } = props
+    const { show, onClickClose, fetchListUsers, backToPage1 } = props
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
@@ -15,7 +16,7 @@ function ModalCreateuser(props) {
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState('')
 
-
+    //clode modal
     const handleClose = () => {
         onClickClose()
         setEmail('');
@@ -26,7 +27,7 @@ function ModalCreateuser(props) {
         setImage('')
     }
 
-
+    //up preview image
     const handleUpImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
             setPreviewImage(URL.createObjectURL(event.target.files[0]))
@@ -35,19 +36,29 @@ function ModalCreateuser(props) {
             setPreviewImage("")
             setImage('')
         }
+
+        // var file = event.target.files[0];
+        // var reader = new FileReader();
+        // setPreviewImage(URL.createObjectURL(event.target.files[0]))
+        // reader.onloadend = function () {
+        //     console.log('RESULT', reader.result)
+        //     setImage(reader.result)
+        // }
+        // reader.readAsDataURL(file);
+
     }
 
-
+    //submit user
     const handleSubmitUser = async () => {
         //validate
         var isValidateEmail = email.toLowerCase().match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
-        var isValidatePassword = password.match(
-            /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-        );
-
-        var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
+        // var isValidatePassword = password.match(
+        //     /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        // );
+        var isValidatePassword;
+        // var isValidateUsername = username.match(/^([a-zA-Z0-9]|[-._](?![-._])){4,20}$/)
         var imageCheckType = document.getElementById('upload-image').value
 
         var typeImage = imageCheckType.substring(
@@ -61,19 +72,19 @@ function ModalCreateuser(props) {
             isValidateEmail = true
         }
 
-        if (!isValidatePassword) {
+        if (password.length < 6) {
             toast.error("Invalid Password")
             isValidatePassword = false
         } else {
             isValidatePassword = true
         }
 
-        if (!isValidateUsername) {
-            toast.error("Invalid Username")
-            isValidateUsername = false
-        } else {
-            isValidateUsername = true
-        }
+        // if (!isValidateUsername) {
+        //     toast.error("Invalid Username")
+        //     isValidateUsername = false
+        // } else {
+        //     isValidateUsername = true
+        // }
 
         if (typeImage == "gif" || typeImage == "png" || typeImage == "bmp"
             || typeImage == "jpeg" || typeImage == "jpg" || typeImage == "jpeg") {
@@ -86,25 +97,18 @@ function ModalCreateuser(props) {
 
 
         //call apis
-        if (isValidateEmail == true && isValidatePassword == true && isValidateUsername == true && isValidateImage == true) {
-
-            try {
-                var res = await postCreateUser(email, password, username, role, image)
-                if (res.data && res.data.EC == 1) {
-                    console.log("Api", res.data)
-                    toast.error(res.data.EM)
-                }
-                if (res.data && res.data.EC == 0) {
-                    console.log("Api", res.data)
-                    toast.success(res.data.EM)
-                    handleClose();
-                }
-            } catch (error) {
-                console.log("API error")
-                toast.error("Server Error")
+        if (isValidateEmail == true && isValidatePassword == true && isValidateImage == true) {
+            var data = await postCreateUser(email, password, username, role, image)
+            if (data && data.EC == 1) {
+                toast.error(data.EM)
+            } else if (data && data.EC == 0) {
+                toast.success(data.EM)
+                handleClose();
+                fetchListUsers();
+                backToPage1()
+            } else {
+                toast.error(data.EM)
             }
-
-
         }
     }
 
@@ -168,8 +172,6 @@ function ModalCreateuser(props) {
                                     :
                                     <span >Preview Image</span>
                                 }
-
-
                             </div>
                         </div>
                     </form>

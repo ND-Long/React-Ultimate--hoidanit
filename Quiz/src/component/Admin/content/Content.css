@@ -34,8 +34,48 @@ label {
 
 .managerPage {
     padding: 10px;
-    width: 100%;
-    /* border: 1px green solid; */
 }
 
-.form-control {}
+.table {
+    margin-top: 15px;
+}
+
+
+
+ul.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-content {
+    display: flex;
+    height: 50vh;
+}
+
+.dashboard-left {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard-left .total {
+    border: 2px solid rgb(204, 204, 204);
+    width: calc(50% - 10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.dashboard-right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.barchart {
+    /* background-color: red; */
+    width: 100%;
+}
